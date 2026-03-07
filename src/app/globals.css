@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-black: #04040A;
+  --color-deep: #070710;
+  --color-white: #F2F0EB;
+  --color-star: #FFD700;
+  --color-accent: #FF4D1C;
+  --color-muted: #1E1E2A;
+  --color-text-muted: #6A6A80;
+  --color-border: rgba(255, 215, 0, 0.1);
+
+  /* Fonts */
+  --font-syne: 'Syne', sans-serif;
+  --font-space-mono: 'Space Mono', monospace;
+  --font-dm-sans: 'DM Sans', sans-serif;
+
+  /* Custom utilities */
+  --animate-spin: spin 12s linear infinite;
+  --animate-marquee: marquee 22s linear infinite;
+  --animate-blink: blink 2s ease-in-out infinite;
+  --animate-scan-pulse: scanPulse 1.5s ease-in-out infinite;
+  --animate-scan-fill: scanFill 2.5s ease-in-out infinite alternate;
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.15; }
+  }
+
+  @keyframes scanPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes scanFill {
+    0% { width: 40%; }
+    100% { width: 90%; }
+  }
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-dm-sans);
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-star);
+  color: var(--color-black);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
