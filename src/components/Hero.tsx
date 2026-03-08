@@ -47,8 +47,8 @@ export function Hero() {
   const renderTitle = (showFull: boolean = false) => {
     const text = showFull ? titleText : titleText.slice(0, typedCount);
 
-    // Position of "STAR" in the text
-    const starStart = 13; // "Você coda. A ".length
+    // Position of "STAR" in the text (after "Você coda. A ")
+    const starStart = 13;
 
     if (!showFull && typedCount <= starStart) {
       // STAR hasn't been reached yet
@@ -71,35 +71,32 @@ export function Hero() {
     );
   };
 
-  // Helper to add line breaks at specific points
+  // Helper to add line break after "coda." (2 lines only)
   const formatWithLineBreaks = (text: string) => {
     // Line 1: "Você coda."
-    // Line 2: "A STAR cuida"
-    // Line 3: "do resto."
+    // Line 2: "A STAR cuida do resto."
     
-    const parts = text.split(/(\s+)/);
-    const result: React.ReactNode[] = [];
-    let currentText = "";
-
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
-      const prevWord = i > 0 ? parts[i - 2] : "";
-      
-      // Add line break after "coda." or after "cuida"
-      if ((prevWord === "coda." || prevWord === "cuida") && !part.match(/^\s+$/)) {
-        result.push(<span key={`text-${i}`}>{currentText}</span>);
-        result.push(<br key={`br-${i}`} />);
-        currentText = part;
-      } else {
-        currentText += part;
-      }
+    const codaIndex = text.indexOf("coda.");
+    
+    if (codaIndex === -1) {
+      return text;
     }
     
-    if (currentText) {
-      result.push(<span key="text-end">{currentText}</span>);
+    const afterCoda = codaIndex + 5; // "coda.".length
+    const line1 = text.slice(0, afterCoda);
+    const line2 = text.slice(afterCoda);
+    
+    if (line2.trim()) {
+      return (
+        <>
+          {line1}
+          <br />
+          {line2}
+        </>
+      );
     }
-
-    return result;
+    
+    return line1;
   };
 
   return (
@@ -125,7 +122,7 @@ export function Hero() {
         )}
 
         {/* Title - always present, typing or complete */}
-        <h1 className="font-inter font-bold text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]">
+        <h1 className="font-dm-sans font-bold text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]">
           {phase === "typing" ? renderTitle() : renderTitle(true)}
           {showCursor && (
             <span
@@ -156,7 +153,7 @@ export function Hero() {
             transition={{ delay: 0.24, duration: revealDuration / 1000, ease: "easeOut" }}
             className="flex items-center justify-center gap-3"
           >
-            <button className="flex items-center gap-2 font-inter text-sm font-medium text-black bg-white py-[13px] px-7 rounded-full transition-all duration-200 hover:bg-white/90 hover:-translate-y-[1px]">
+            <button className="flex items-center gap-2 font-dm-sans text-sm font-medium text-black bg-white py-[13px] px-7 rounded-full transition-all duration-200 hover:bg-white/90 hover:-translate-y-[1px]">
               <svg
                 width="16"
                 height="16"
@@ -171,7 +168,7 @@ export function Hero() {
               </svg>
               Early access
             </button>
-            <button className="font-inter text-sm font-normal text-white/60 bg-transparent border border-white/15 py-[13px] px-7 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[1px]">
+            <button className="font-dm-sans text-sm font-normal text-white/60 bg-transparent border border-white/15 py-[13px] px-7 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[1px]">
               Ver como funciona →
             </button>
           </motion.div>
