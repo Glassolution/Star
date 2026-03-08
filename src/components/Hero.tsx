@@ -5,47 +5,53 @@ import { motion } from "framer-motion";
 export function Hero() {
   return (
     <section
-      className="min-h-screen flex flex-col items-center justify-center bg-[#04040A] px-6"
+      className="min-h-screen flex flex-col items-center justify-center relative z-1 bg-transparent px-6"
       id="hero"
     >
       {/* Logo */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="font-syne font-extrabold text-[14px] text-star tracking-[-0.5px] mb-3"
+        transition={{ duration: 0.6 }}
+        className="flex items-center gap-2 mb-8"
       >
-        ★ STAR
+        <span className="text-star text-xl">★</span>
+        <span className="font-syne font-extrabold text-[16px] text-star tracking-[-0.5px]">
+          STAR
+        </span>
       </motion.div>
 
       {/* Title */}
       <motion.h1
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.05, duration: 0.5 }}
-        className="font-syne font-extrabold text-[clamp(36px,5vw,64px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[700px]"
+        transition={{ delay: 0.1, duration: 0.6 }}
+        className="font-syne font-extrabold text-[clamp(40px,7vw,72px)] leading-[1.05] tracking-[-2px] text-white text-center max-w-[800px] mb-6"
       >
-        Conecte seu repo. A STAR cuida do que a IA esqueceu.
+        Conecte seu repo.
+        <br />
+        A <span className="text-star">STAR</span> cuida do que a IA esqueceu.
       </motion.h1>
 
       {/* Subtitle */}
       <motion.p
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.5 }}
-        className="font-dm-sans font-light text-[15px] text-white/40 text-center max-w-[400px] mt-4 leading-[1.6]"
+        transition={{ delay: 0.2, duration: 0.6 }}
+        className="font-dm-sans font-light text-[15px] text-white/40 text-center max-w-[420px] mb-10 leading-[1.7]"
       >
-        Segurança, pagamentos e arquitetura — analisados e corrigidos com um prompt.
+        Segurança, pagamentos e arquitetura — analisados e corrigidos com um
+        prompt.
       </motion.p>
 
       {/* Buttons */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15, duration: 0.5 }}
-        className="flex items-center justify-center gap-3 mt-9"
+        transition={{ delay: 0.3, duration: 0.6 }}
+        className="flex items-center justify-center gap-3"
       >
-        <button className="flex items-center gap-2 font-dm-sans text-sm font-medium text-black bg-star border-none py-[13px] px-7 rounded-full transition-all duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(255,215,0,0.25)]">
+        <button className="flex items-center gap-2 font-dm-sans text-sm font-medium text-black bg-star border-none py-3 px-6 rounded-full transition-all duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(255,215,0,0.3)]">
           <svg
             width="15"
             height="15"
@@ -60,7 +66,7 @@ export function Hero() {
           </svg>
           Conectar GitHub
         </button>
-        <button className="font-dm-sans text-sm font-normal text-white/50 bg-transparent border border-white/20 py-[13px] px-7 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/30 hover:-translate-y-[2px]">
+        <button className="font-dm-sans text-sm font-normal text-white/50 bg-transparent border border-white/15 py-3 px-6 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[2px]">
           Ver como funciona →
         </button>
       </motion.div>
