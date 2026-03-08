@@ -134,7 +134,7 @@ export function Hero() {
         )}
 
         {/* Title - always present, typing or complete */}
-        <h1 className="text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}>
+        <h1 className="text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800 }}>
           {phase === "typing" ? renderTitle() : renderTitle(true)}
           {showCursor && (
             <span
