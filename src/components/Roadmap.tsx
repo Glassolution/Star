@@ -58,7 +58,7 @@ const roadmap = [
 
 function Tag({ label, type }: { label: string; type: string }) {
   const baseClasses =
-    "font-space-mono text-[9px] tracking-[1px] uppercase py-[3px] px-2 rounded";
+    "text-[9px] tracking-[1px] uppercase py-[3px] px-2 rounded";
 
   const typeClasses = {
     live: "bg-[#4ADE80]/10 text-[#4ADE80]",
@@ -89,8 +89,8 @@ function RoadmapItem({
       className="grid grid-cols-[180px_1px_1fr] gap-0 gap-x-10 py-9 border-b border-white/5 items-start last:border-b-0"
     >
       {/* Phase */}
-      <div className="font-space-mono text-[10px] tracking-[1px] uppercase text-text-muted pt-1">
-        <strong className="block font-syne text-[17px] text-white tracking-[-0.5px] mb-1 font-bold">
+      <div className="text-[10px] tracking-[1px] uppercase text-text-muted pt-1">
+        <strong className="block text-[17px] text-white tracking-[-0.5px] mb-1 font-bold">
           {item.phase}
         </strong>
         {item.phaseName}
@@ -103,7 +103,7 @@ function RoadmapItem({
 
       {/* Content */}
       <div>
-        <h3 className="font-syne font-bold text-xl tracking-[-0.5px] mb-2">
+        <h3 className="font-bold text-xl tracking-[-0.5px] mb-2">
           {item.title}
         </h3>
         <p className="text-text-muted text-sm leading-[1.7] font-light">
@@ -132,11 +132,11 @@ export function Roadmap() {
           animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55 }}
         >
-          <div className="font-space-mono text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
+          <div className="text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
             <span className="w-7 h-px bg-star" />
             Roadmap
           </div>
-          <h2 className="font-syne font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
+          <h2 className="font-bold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
             Onde estamos
             <br />
             indo.

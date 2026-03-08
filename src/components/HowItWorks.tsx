@@ -52,13 +52,13 @@ function StepCard({
       {/* Top border animation on hover */}
       <div className="absolute top-0 left-0 right-0 h-0.5 bg-star scale-x-0 origin-left transition-transform duration-400 group-hover:scale-x-100" />
 
-      <div className="font-syne font-extrabold text-[72px] text-star/7 leading-none mb-5 transition-colors duration-300 group-hover:text-star/13">
+      <div className="font-extrabold text-[72px] text-star/7 leading-none mb-5 transition-colors duration-300 group-hover:text-star/13">
         {step.number}
       </div>
 
       <div className="text-[26px] mb-4">{step.icon}</div>
 
-      <h3 className="font-syne font-bold text-xl mb-2.5 tracking-[-0.5px]">
+      <h3 className="font-bold text-xl mb-2.5 tracking-[-0.5px]">
         {step.title}
       </h3>
 
@@ -66,7 +66,7 @@ function StepCard({
         {step.description}
       </p>
 
-      <span className="inline-block mt-4 font-space-mono text-[9px] tracking-[1px] uppercase py-1 px-2.5 bg-star/8 text-star">
+      <span className="inline-block mt-4 text-[9px] tracking-[1px] uppercase py-1 px-2.5 bg-star/8 text-star">
         {step.tag}
       </span>
     </motion.div>
@@ -87,11 +87,11 @@ export function HowItWorks() {
           transition={{ duration: 0.55 }}
           className="mb-16"
         >
-          <div className="font-space-mono text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
+          <div className="text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
             <span className="w-7 h-px bg-star" />
             Como funciona
           </div>
-          <h2 className="font-syne font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
+          <h2 className="font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
             Simples como
             <br />
             deveria ser.

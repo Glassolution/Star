@@ -40,11 +40,11 @@ export function CTA() {
       />
 
       <div className="relative">
-        <div className="font-space-mono text-[11px] tracking-[3px] uppercase text-star mb-4 flex items-center justify-center gap-3">
+        <div className="text-[11px] tracking-[3px] uppercase text-star mb-4 flex items-center justify-center gap-3">
           Acesso antecipado
         </div>
 
-        <h2 className="font-syne font-extrabold text-[clamp(48px,6.5vw,90px)] leading-[0.98] tracking-[-2px] text-white mx-auto mb-5 max-w-[700px]">
+        <h2 className="font-bold text-[clamp(48px,6.5vw,90px)] leading-[0.98] tracking-[-2px] text-white mx-auto mb-5 max-w-[700px]">
           Pronto para
           <br />
           construir <span className="text-star">direito?</span>
@@ -64,17 +64,17 @@ export function CTA() {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="bg-transparent border-none outline-none py-3.5 px-5 font-dm-sans text-sm text-white w-[260px] placeholder:text-text-muted"
+            className="bg-transparent border-none outline-none py-3.5 px-5 text-sm text-white w-[260px] placeholder:text-text-muted"
           />
           <button
             type="submit"
-            className="font-space-mono text-[11px] font-bold tracking-[1px] uppercase py-3.5 px-6 bg-star text-black border-none whitespace-nowrap transition-colors hover:bg-[#FFE040]"
+            className="text-[11px] font-bold tracking-[1px] uppercase py-3.5 px-6 bg-star text-black border-none whitespace-nowrap transition-colors hover:bg-[#FFE040]"
           >
             Entrar na lista ★
           </button>
         </form>
 
-        <div className="font-space-mono text-[10px] text-white/20 mt-3.5 tracking-[0.5px]">
+        <div className="text-[10px] text-white/20 mt-3.5 tracking-[0.5px]">
           Sem spam · Só avisamos quando estiver pronto
         </div>
       </div>

@@ -1,30 +1,7 @@
 import type { Metadata } from "next";
-import { Space_Mono, Syne, DM_Sans, Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
-
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
-});
-
-const syne = Syne({
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-  variable: "--font-syne",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-  variable: "--font-dm-sans",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
-});
 
 export const metadata: Metadata = {
   title: "STAR — Sua IA técnica por trás do código",
@@ -56,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${spaceMono.variable} ${syne.variable} ${dmSans.variable} ${inter.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body className="antialiased">{children}</body>
     </html>

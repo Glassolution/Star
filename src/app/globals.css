@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors */
-  --color-black: #04040A;
-  --color-deep: #070710;
-  --color-white: #F2F0EB;
-  --color-star: #FFD700;
+  /* Colors - Subtle gray palette */
+  --color-black: #080808;
+  --color-deep: #111113;
+  --color-white: #FAFAFA;
+  --color-star: #FFD400;
   --color-accent: #FF4D1C;
-  --color-muted: #1E1E2A;
-  --color-text-muted: #6A6A80;
-  --color-border: rgba(255, 215, 0, 0.1);
+  --color-muted: #18181B;
+  --color-text-muted: #71717A;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-grid-line: rgba(255, 255, 255, 0.045);
+  --color-grid-cross: #FFD400;
 
-  /* Fonts */
-  --font-syne: 'Syne', sans-serif;
-  --font-space-mono: 'Space Mono', monospace;
-  --font-dm-sans: 'DM Sans', sans-serif;
-  --font-inter: 'Inter', sans-serif;
+  /* Grid System */
+  --grid-columns: 12;
+  --grid-gap: 1px;
+  --grid-max-width: 1400px;
+  --grid-padding: 24px;
+  --grid-cell-size: 80px;
 
   /* Custom utilities */
   --animate-spin: spin 12s linear infinite;
@@ -62,8 +65,70 @@ html {
 body {
   background: var(--color-black);
   color: var(--color-white);
-  font-family: var(--font-dm-sans);
+  font-family: var(--font-geist-sans), sans-serif;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* Main Grid Background - Fixed, covers entire viewport */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-color: #080808;
+  background-image: 
+    linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+  background-size: var(--grid-cell-size) var(--grid-cell-size);
+  /* Radial mask for focus in center */
+  mask-image: radial-gradient(
+    ellipse 70% 50% at 50% 40%,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 40%,
+    rgba(0, 0, 0, 0.1) 70%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 50% at 50% 40%,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 40%,
+    rgba(0, 0, 0, 0.1) 70%,
+    transparent 100%
+  );
+}
+
+/* Grid Container */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--grid-gap);
+  max-width: var(--grid-max-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-padding);
+}
+
+/* Grid Cell Helpers */
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-9 { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
+.col-11 { grid-column: span 11; }
+.col-12 { grid-column: span 12; }
+
+/* Center content in grid */
+.col-center {
+  grid-column: 2 / -2;
 }
 
 /* Selection */
@@ -74,7 +139,7 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -83,9 +148,9 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-muted);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-scrollbar-thumb:hover {
   background: var(--color-text-muted);
 }

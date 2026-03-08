@@ -11,7 +11,7 @@ export function Footer() {
     <footer className="relative z-1 py-10 px-[60px] border-t border-white/5 flex justify-between items-center">
       <a
         href="#"
-        className="font-syne font-extrabold text-xl tracking-[-1px] text-white no-underline flex items-center gap-2"
+        className="text-xl font-bold tracking-[-1px] text-white no-underline flex items-center gap-2"
       >
         <svg
           width="18"
@@ -32,7 +32,7 @@ export function Footer() {
           <li key={link.label}>
             <a
               href={link.href}
-              className="font-space-mono text-[10px] tracking-[1px] uppercase text-text-muted no-underline transition-colors hover:text-star"
+              className="text-[10px] tracking-[1px] uppercase text-text-muted no-underline transition-colors hover:text-star"
             >
               {link.label}
             </a>
@@ -40,7 +40,7 @@ export function Footer() {
         ))}
       </ul>
 
-      <p className="font-space-mono text-[10px] text-white/18 tracking-[0.5px]">
+      <p className="text-[10px] text-white/18 tracking-[0.5px]">
         © 2025 STAR. Todos os direitos reservados.
       </p>
     </footer>

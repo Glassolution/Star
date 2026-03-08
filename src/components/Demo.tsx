@@ -11,7 +11,7 @@ function WindowBar({ title }: { title: string }) {
       <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
       <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
       <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-      <div className="flex-1 text-center font-space-mono text-[9px] text-text-muted">
+      <div className="flex-1 text-center text-[9px] text-text-muted">
         {title}
       </div>
     </div>
@@ -22,26 +22,26 @@ function WindowBar({ title }: { title: string }) {
 function GitHubConnect() {
   return (
     <div className="p-5">
-      <div className="font-space-mono text-[10px] uppercase tracking-[1.5px] text-text-muted mb-3.5">
+      <div className="text-[10px] uppercase tracking-[1.5px] text-text-muted mb-3.5">
         Selecione o repositório
       </div>
       <div className="flex flex-col gap-1.5 mb-3.5">
-        <div className="flex items-center gap-2 py-2 px-3 bg-[#141420] border border-white/6 rounded-md font-space-mono text-[11px] text-white/70">
+        <div className="flex items-center gap-2 py-2 px-3 bg-[#141420] border border-white/6 rounded-md text-[11px] text-white/70">
           <span>📁</span>
           meu-ecommerce
           <span className="ml-auto text-star">✓</span>
         </div>
-        <div className="flex items-center gap-2 py-2 px-3 bg-[#1A1A28] border border-star/40 rounded-md font-space-mono text-[11px] text-white">
+        <div className="flex items-center gap-2 py-2 px-3 bg-[#1A1A28] border border-star/40 rounded-md text-[11px] text-white">
           <span>📁</span>
           meu-saas
           <span className="ml-auto text-star">★</span>
         </div>
-        <div className="flex items-center gap-2 py-2 px-3 bg-[#141420] border border-white/6 rounded-md font-space-mono text-[11px] text-white/70">
+        <div className="flex items-center gap-2 py-2 px-3 bg-[#141420] border border-white/6 rounded-md text-[11px] text-white/70">
           <span>📁</span>
           landing-page
         </div>
       </div>
-      <button className="w-full py-2.5 bg-star text-black rounded-md font-space-mono text-[10px] font-bold tracking-[1px] uppercase transition-opacity hover:opacity-85">
+      <button className="w-full py-2.5 bg-star text-black rounded-md text-[10px] font-bold tracking-[1px] uppercase transition-opacity hover:opacity-85">
         Conectar via GitHub OAuth →
       </button>
     </div>
@@ -53,10 +53,10 @@ function Scanning() {
   return (
     <div className="p-4">
       <div className="flex items-center justify-between mb-3.5">
-        <div className="font-space-mono text-[10px] uppercase tracking-[1.5px] text-text-muted">
+        <div className="text-[10px] uppercase tracking-[1.5px] text-text-muted">
           Análise em progresso
         </div>
-        <div className="flex items-center gap-1.5 font-space-mono text-[9px] text-star bg-star/8 py-[3px] px-2 rounded-full">
+        <div className="flex items-center gap-1.5 text-[9px] text-star bg-star/8 py-[3px] px-2 rounded-full">
           <span className="w-[5px] h-[5px] bg-star rounded-full animate-pulse" />
           Ao vivo
         </div>
@@ -65,37 +65,37 @@ function Scanning() {
       <div className="flex flex-col gap-0.5">
         <div className="flex items-center gap-2 py-1.5 px-2 rounded-sm">
           <div className="w-[5px] h-[5px] rounded-full bg-[#F87171]" />
-          <span className="font-space-mono text-[10px] text-[#F87171]">
+          <span className="text-[10px] text-[#F87171]">
             api/payments.js
           </span>
-          <span className="font-space-mono text-[9px] text-text-muted ml-auto">
+          <span className="text-[9px] text-text-muted ml-auto">
             3 críticos
           </span>
         </div>
         <div className="flex items-center gap-2 py-1.5 px-2 rounded-sm">
           <div className="w-[5px] h-[5px] rounded-full bg-[#F87171]" />
-          <span className="font-space-mono text-[10px] text-[#F87171]">
+          <span className="text-[10px] text-[#F87171]">
             middleware/auth.js
           </span>
-          <span className="font-space-mono text-[9px] text-text-muted ml-auto">
+          <span className="text-[9px] text-text-muted ml-auto">
             2 críticos
           </span>
         </div>
         <div className="flex items-center gap-2 py-1.5 px-2 rounded-sm">
           <div className="w-[5px] h-[5px] rounded-full bg-[#FB923C]" />
-          <span className="font-space-mono text-[10px] text-[#FB923C]">
+          <span className="text-[10px] text-[#FB923C]">
             webhooks/stripe.js
           </span>
-          <span className="font-space-mono text-[9px] text-text-muted ml-auto">
+          <span className="text-[9px] text-text-muted ml-auto">
             2 avisos
           </span>
         </div>
         <div className="flex items-center gap-2 py-1.5 px-2 rounded-sm animate-pulse">
           <div className="w-[5px] h-[5px] rounded-full bg-text-muted" />
-          <span className="font-space-mono text-[10px] text-text-muted">
+          <span className="text-[10px] text-text-muted">
             utils/helpers.js
           </span>
-          <span className="font-space-mono text-[9px] text-text-muted ml-auto">
+          <span className="text-[9px] text-text-muted ml-auto">
             escaneando...
           </span>
         </div>
@@ -126,7 +126,7 @@ function Results() {
           <button
             key={index}
             onClick={() => setActiveTab(index)}
-            className={`font-space-mono text-[9px] tracking-[1px] uppercase py-1.5 px-3 border-b-2 transition-colors ${
+            className={`text-[9px] tracking-[1px] uppercase py-1.5 px-3 border-b-2 transition-colors ${
               index === activeTab
                 ? "text-star border-star"
                 : "text-text-muted border-transparent"
@@ -152,19 +152,19 @@ function Results() {
       </div>
 
       <div className="bg-[#060609] border border-star/15 rounded-md p-2.5 mt-2">
-        <div className="font-space-mono text-[8px] uppercase tracking-[1.5px] text-star mb-1.5 flex items-center gap-1">
+        <div className="text-[8px] uppercase tracking-[1.5px] text-star mb-1.5 flex items-center gap-1">
           ★ Prompt STAR
         </div>
-        <div className="font-space-mono text-[9.5px] text-[#AAAABB] leading-[1.6]">
+        <div className="text-[9.5px] text-[#AAAABB] leading-[1.6]">
           Mova <span className="text-star">STRIPE_SECRET</span> para{" "}
           <span className="text-star">process.env</span> e adicione ao{" "}
           <span className="text-star">.env.local</span>...
         </div>
         <div className="flex gap-1.5 mt-2 justify-end">
-          <button className="font-space-mono text-[8px] py-1 px-2.5 rounded bg-star/8 text-star border border-star/20 uppercase tracking-[0.5px] transition-colors hover:bg-star/15">
+          <button className="text-[8px] py-1 px-2.5 rounded bg-star/8 text-star border border-star/20 uppercase tracking-[0.5px] transition-colors hover:bg-star/15">
             Copiar
           </button>
-          <button className="font-space-mono text-[8px] py-1 px-2.5 rounded bg-star text-black font-bold uppercase tracking-[0.5px]">
+          <button className="text-[8px] py-1 px-2.5 rounded bg-star text-black font-bold uppercase tracking-[0.5px]">
             → Lovable
           </button>
         </div>
@@ -205,10 +205,10 @@ function DemoCard({
         {children}
       </div>
       <div>
-        <div className="font-syne text-[13px] font-extrabold text-star mb-1">
+        <div className="text-[13px] font-extrabold text-star mb-1">
           {stepNum}
         </div>
-        <h4 className="font-syne font-bold text-[17px] tracking-[-0.3px]">
+        <h4 className="font-bold text-[17px] tracking-[-0.3px]">
           {title}
         </h4>
         <p className="text-[13px] text-text-muted leading-[1.6] font-light mt-1">
@@ -238,10 +238,10 @@ function ChatDemo() {
           <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-          <div className="flex-1 text-center font-space-mono text-[11px] text-text-muted">
+          <div className="flex-1 text-center text-[11px] text-text-muted">
             star — chat · meu-saas
           </div>
-          <div className="flex items-center gap-1.5 font-space-mono text-[9px] text-star bg-star/8 py-[3px] px-2.5 rounded-full">
+          <div className="flex items-center gap-1.5 text-[9px] text-star bg-star/8 py-[3px] px-2.5 rounded-full">
             <span className="w-[5px] h-[5px] bg-star rounded-full animate-pulse" />
             3 críticos encontrados
           </div>
@@ -274,7 +274,7 @@ function ChatDemo() {
                   código. O mais urgente:
                 </div>
                 <div className="mt-2.5 bg-[#0A0A12] border border-[#F87171]/20 rounded-lg py-2.5 px-3">
-                  <div className="font-space-mono text-[10px] text-[#F87171] mb-1">
+                  <div className="text-[10px] text-[#F87171] mb-1">
                     🔑 CRÍTICO · api/payments.js
                   </div>
                   <div className="text-xs text-white/60">
@@ -301,7 +301,7 @@ function ChatDemo() {
                 <div className="text-xs font-semibold text-star mb-2">
                   Prompt pronto para o Lovable ✓
                 </div>
-                <div className="bg-[#060609] border border-star/15 rounded-lg p-3 font-space-mono text-[10.5px] text-[#AAAABB] leading-[1.65]">
+                <div className="bg-[#060609] border border-star/15 rounded-lg p-3 text-[10.5px] text-[#AAAABB] leading-[1.65]">
                   Em <span className="text-star">api/payments.js</span>, remova a
                   linha com{" "}
                   <span className="text-[#7DD3FC]">
@@ -313,10 +313,10 @@ function ChatDemo() {
                   a variável.
                 </div>
                 <div className="flex gap-2 mt-2.5">
-                  <button className="font-space-mono text-[9px] py-1.5 px-3.5 bg-star/8 text-star border border-star/20 rounded hover:bg-star/15 tracking-[0.5px]">
+                  <button className="text-[9px] py-1.5 px-3.5 bg-star/8 text-star border border-star/20 rounded hover:bg-star/15 tracking-[0.5px]">
                     Copiar prompt
                   </button>
-                  <button className="font-space-mono text-[9px] py-1.5 px-3.5 bg-star text-black rounded font-bold tracking-[0.5px]">
+                  <button className="text-[9px] py-1.5 px-3.5 bg-star text-black rounded font-bold tracking-[0.5px]">
                     Abrir no Lovable →
                   </button>
                 </div>
@@ -326,16 +326,16 @@ function ChatDemo() {
 
           {/* Right Panel: File Context */}
           <div className="p-6 bg-[#09090F] flex flex-col gap-4">
-            <div className="font-space-mono text-[10px] uppercase tracking-[1.5px] text-white/20 mb-1">
+            <div className="text-[10px] uppercase tracking-[1.5px] text-white/20 mb-1">
               Contexto · meu-saas
             </div>
 
             {/* File Being Analyzed */}
             <div className="bg-[#111119] border border-[#F87171]/20 rounded-lg p-3.5 border-l-2 border-l-[#F87171]">
-              <div className="font-space-mono text-[10px] text-[#F87171] mb-2">
+              <div className="text-[10px] text-[#F87171] mb-2">
                 📄 api/payments.js
               </div>
-              <div className="font-space-mono text-[10.5px] text-white/50 leading-[1.7]">
+              <div className="text-[10.5px] text-white/50 leading-[1.7]">
                 <span className="text-white/20">10</span>{" "}
                 <span className="text-[#7DD3FC]">const</span> stripe = require(
                 <span className="text-[#86efac]">&apos;stripe&apos;</span>)
@@ -353,10 +353,10 @@ function ChatDemo() {
 
             {/* Suggested Fix */}
             <div className="bg-[#111119] border border-[#4ADE80]/15 rounded-lg p-3.5 border-l-2 border-l-[#4ADE80]">
-              <div className="font-space-mono text-[10px] text-[#4ADE80] mb-2">
+              <div className="text-[10px] text-[#4ADE80] mb-2">
                 ✓ Correção sugerida
               </div>
-              <div className="font-space-mono text-[10.5px] text-white/50 leading-[1.7]">
+              <div className="text-[10.5px] text-white/50 leading-[1.7]">
                 <span className="text-white/20">10</span>{" "}
                 <span className="text-[#7DD3FC]">const</span> stripe = require(
                 <span className="text-[#86efac]">&apos;stripe&apos;</span>)
@@ -374,18 +374,18 @@ function ChatDemo() {
             {/* Stats */}
             <div className="grid grid-cols-2 gap-2 mt-auto">
               <div className="bg-[#111119] border border-white/5 rounded-lg p-3 text-center">
-                <div className="font-syne font-extrabold text-2xl text-[#F87171]">
+                <div className="font-extrabold text-2xl text-[#F87171]">
                   3
                 </div>
-                <div className="font-space-mono text-[9px] text-text-muted uppercase tracking-[1px] mt-0.5">
+                <div className="text-[9px] text-text-muted uppercase tracking-[1px] mt-0.5">
                   Críticos
                 </div>
               </div>
               <div className="bg-[#111119] border border-white/5 rounded-lg p-3 text-center">
-                <div className="font-syne font-extrabold text-2xl text-[#FB923C]">
+                <div className="font-extrabold text-2xl text-[#FB923C]">
                   7
                 </div>
-                <div className="font-space-mono text-[9px] text-text-muted uppercase tracking-[1px] mt-0.5">
+                <div className="text-[9px] text-text-muted uppercase tracking-[1px] mt-0.5">
                   Avisos
                 </div>
               </div>
@@ -414,11 +414,11 @@ export function Demo() {
           transition={{ duration: 0.55 }}
           className="mb-[72px]"
         >
-          <div className="font-space-mono text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
+          <div className="text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
             <span className="w-7 h-px bg-star" />
             Veja ao vivo
           </div>
-          <h2 className="font-syne font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white mb-5">
+          <h2 className="font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white mb-5">
             Três passos.
             <br />
             <span className="text-star">Do repo ao fix.</span>

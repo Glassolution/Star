@@ -24,40 +24,47 @@ export function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-200 flex items-center justify-between px-[60px] py-[22px] transition-all duration-300 ${
-        scrolled
-          ? "bg-black/60 backdrop-blur-xl"
-          : "bg-transparent"
-      }`}
-      id="mainNav"
+      className={`fixed top-[30px] left-0 right-0 z-200 flex items-center justify-center transition-all duration-300`}
     >
-      <a href="#" className="flex items-center gap-2 no-underline group">
-        <span className="text-star text-xl">★</span>
-        <span className="font-syne font-extrabold text-[16px] text-star tracking-[-0.5px]">
-          STAR
-        </span>
-      </a>
+      <div
+        className={`flex items-center gap-8 px-[24px] py-[14px] rounded-full transition-all duration-300 ${
+          scrolled
+            ? "bg-black/80 backdrop-blur-xl border border-white/5"
+            : "bg-transparent"
+        }`}
+      >
+        <a href="#" className="flex items-center gap-2 no-underline group">
+          <span className="text-star text-lg">★</span>
+          <span className="text-[14px] text-star font-bold tracking-[-0.5px]">
+            STAR
+          </span>
+        </a>
 
-      <ul className="flex gap-9 list-none">
-        {navLinks.map((link) => (
-          <li key={link.href}>
-            <a
-              href={link.href}
-              className="font-dm-sans text-sm text-white/50 no-underline transition-colors duration-200 hover:text-white font-normal tracking-[0.2px]"
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+        <div className="w-px h-4 bg-white/10" />
 
-      <div className="flex items-center gap-3">
-        <button className="font-dm-sans text-sm font-medium py-[10px] px-5 bg-star text-black rounded-full transition-all duration-200 hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(255,215,0,0.3)]">
-          Conectar GitHub
-        </button>
+        <ul className="flex gap-6 list-none">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <a
+                href={link.href}
+                className="text-[13px] text-white/60 no-underline transition-colors duration-200 hover:text-white font-normal tracking-[0.2px]"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="w-px h-4 bg-white/10" />
+
+        <div className="flex items-center">
+          <button className="text-[13px] font-medium py-[8px] px-4 bg-white text-black rounded-full transition-all duration-200 hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(255,255,255,0.1)]">
+            Early access
+          </button>
+        </div>
       </div>
     </motion.nav>
   );

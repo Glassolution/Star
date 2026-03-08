@@ -23,12 +23,12 @@ function Dash() {
 }
 
 function Partial({ text }: { text: string }) {
-  return <span className="font-space-mono text-[10px] text-[#FB923C]">{text}</span>;
+  return <span className="text-[10px] text-[#FB923C]">{text}</span>;
 }
 
 function Soon() {
   return (
-    <span className="text-[#FB923C] font-space-mono text-[10px]">Em breve</span>
+    <span className="text-[#FB923C] text-[10px]">Em breve</span>
   );
 }
 
@@ -109,11 +109,11 @@ export function Compare() {
           animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55 }}
         >
-          <div className="font-space-mono text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
+          <div className="text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
             <span className="w-7 h-px bg-star" />
             Comparativo
           </div>
-          <h2 className="font-syne font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
+          <h2 className="font-bold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
             Por que a STAR
             <br />
             é diferente.
@@ -123,19 +123,19 @@ export function Compare() {
         <div className="border border-star/10 overflow-hidden mt-14">
           {/* Header */}
           <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] bg-star/4 border-b border-star/10">
-            <div className="py-4 px-5 font-space-mono text-[10px] uppercase tracking-[1.5px] text-text-muted">
+            <div className="py-4 px-5 text-[10px] uppercase tracking-[1.5px] text-text-muted">
               Feature
             </div>
-            <div className="py-4 px-5 font-space-mono text-[10px] uppercase tracking-[1.5px] text-star bg-star/7 flex items-center gap-1.5">
+            <div className="py-4 px-5 text-[10px] uppercase tracking-[1.5px] text-star bg-star/7 flex items-center gap-1.5">
               ★ STAR
             </div>
-            <div className="py-4 px-5 font-space-mono text-[10px] uppercase tracking-[1.5px] text-text-muted">
+            <div className="py-4 px-5 text-[10px] uppercase tracking-[1.5px] text-text-muted">
               Lovable
             </div>
-            <div className="py-4 px-5 font-space-mono text-[10px] uppercase tracking-[1.5px] text-text-muted">
+            <div className="py-4 px-5 text-[10px] uppercase tracking-[1.5px] text-text-muted">
               Replit
             </div>
-            <div className="py-4 px-5 font-space-mono text-[10px] uppercase tracking-[1.5px] text-text-muted">
+            <div className="py-4 px-5 text-[10px] uppercase tracking-[1.5px] text-text-muted">
               Claude Code
             </div>
           </div>

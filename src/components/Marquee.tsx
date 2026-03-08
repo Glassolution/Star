@@ -26,7 +26,7 @@ export function Marquee() {
         {items.map((item, index) => (
           <span
             key={index}
-            className="font-space-mono text-[11px] tracking-[2px] uppercase text-text-muted flex items-center gap-3.5 shrink-0"
+            className="text-[11px] tracking-[2px] uppercase text-text-muted flex items-center gap-3.5 shrink-0"
           >
             {item}
             <span className="text-star opacity-50">★</span>

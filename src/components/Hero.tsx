@@ -3,6 +3,75 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
+// Wavy hand-drawn underline SVG component - subtle, natural look
+function WavyUnderline({ width, progress }: { width: number; progress: number }) {
+  const pathLength = 100;
+  
+  // Generate a subtle, natural hand-drawn underline
+  // Like a quick highlight marker stroke - minimal waviness
+  const generateWavyPath = () => {
+    // Simple, gentle curve - just a slight natural hand movement
+    const points = [
+      { x: 0, y: 3.5 },
+      { x: 20, y: 4.2 },
+      { x: 40, y: 3.8 },
+      { x: 60, y: 4.5 },
+      { x: 80, y: 3.9 },
+      { x: 100, y: 4.1 },
+    ];
+    
+    let d = `M ${points[0].x} ${points[0].y}`;
+    
+    // Use smooth curves between points for natural look
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i - 1];
+      const curr = points[i];
+      const midX = (prev.x + curr.x) / 2;
+      d += ` Q ${midX} ${prev.y} ${curr.x} ${curr.y}`;
+    }
+    
+    return d;
+  };
+  
+  const pathD = generateWavyPath();
+
+  return (
+    <svg
+      viewBox={`0 0 ${pathLength} 8`}
+      className="absolute left-0 -bottom-2 w-full overflow-visible"
+      style={{ width: `${width * 100}%`, minWidth: '100%' }}
+      preserveAspectRatio="none"
+    >
+      {/* Subtle glow effect */}
+      <motion.path
+        d={pathD}
+        fill="none"
+        stroke="#FFD400"
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeOpacity={0.25}
+        filter="blur(2px)"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: Math.min(progress, 1) }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      />
+      {/* Main line - natural hand-drawn look */}
+      <motion.path
+        d={pathD}
+        fill="none"
+        stroke="#FFD400"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: Math.min(progress, 1) }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      />
+    </svg>
+  );
+}
+
 // Title text for typing
 const titleText = "Você coda. A STAR cuida do resto.";
 const typingSpeed = 94; // ms per letter (~3 seconds total)
@@ -68,15 +137,12 @@ export function Hero() {
     return (
       <>
         {formatWithLineBreaks(beforeStar)}
-        <span className="relative inline-block text-star">
+        <span className="relative inline text-star">
           {starText}
-          {/* Animated underline under STAR */}
-          <motion.span
-            className="absolute left-0 -bottom-1 h-[3px] bg-star rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${starProgress * 100}%` }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-          />
+          {/* Animated wavy underline under STAR - only when STAR is being/has been typed */}
+          {(starProgress > 0 || showFull) && (
+            <WavyUnderline width={1} progress={Math.min(starProgress, 1)} />
+          )}
         </span>
         {formatWithLineBreaks(afterStar)}
       </>
@@ -116,76 +182,75 @@ export function Hero() {
       className="min-h-screen flex flex-col items-center justify-center relative z-1 bg-transparent px-6"
       id="hero"
     >
-      {/* Container for all hero content */}
-      <div className="flex flex-col items-center justify-center">
-        {/* Logo - appears after typing */}
-        {phase === "complete" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0, duration: revealDuration / 1000, ease: "easeOut" }}
-            className="flex items-center gap-2 mb-8"
-          >
-            <span className="text-star text-xl">★</span>
-            <span className="font-syne font-extrabold text-[16px] text-star tracking-[-0.5px]">
-              STAR
-            </span>
-          </motion.div>
-        )}
+      {/* Logo - appears after typing */}
+      {phase === "complete" && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0, duration: revealDuration / 1000, ease: "easeOut" }}
+          className="flex items-center gap-2 mb-8"
+        >
+          <span className="text-star text-xl">★</span>
+          <span className="text-[16px] text-star font-bold tracking-[-0.5px]">
+            STAR
+          </span>
+        </motion.div>
+      )}
 
-        {/* Title - always present, typing or complete */}
-        <h1 className="text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800 }}>
-          {phase === "typing" ? renderTitle() : renderTitle(true)}
-          {showCursor && (
-            <span
-              className="inline-block w-[3px] h-[1em] bg-star ml-1 align-middle"
-              style={{ animation: "cursor-blink 0.9s step-end infinite" }}
-            />
-          )}
-        </h1>
-
-        {/* Subtitle - appears after typing */}
-        {phase === "complete" && (
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12, duration: revealDuration / 1000, ease: "easeOut" }}
-            className="text-[15px] text-white/40 text-center max-w-[420px] mt-6 mb-10 leading-[1.7]" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300 }}
-          >
-            Segurança, pagamentos e arquitetura — analisados e corrigidos com um
-            prompt.
-          </motion.p>
+      {/* Title - always present, typing or complete */}
+      <h1 className="text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px] font-bold">
+        {phase === "typing" ? renderTitle() : renderTitle(true)}
+        {showCursor && (
+          <span
+            className="inline-block w-[3px] h-[1em] bg-star ml-1 align-middle"
+            style={{ animation: "cursor-blink 0.9s step-end infinite" }}
+          />
         )}
+      </h1>
 
-        {/* Buttons - appears after typing */}
-        {phase === "complete" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.24, duration: revealDuration / 1000, ease: "easeOut" }}
-            className="flex items-center justify-center gap-3"
-          >
-            <button className="flex items-center gap-2 text-sm text-black bg-white py-[13px] px-7 rounded-full transition-all duration-200 hover:bg-white/90 hover:-translate-y-[1px]" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="text-black"
-              >
-                <path
-                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Early access
-            </button>
-            <button className="text-sm text-white/60 bg-transparent border border-white/15 py-[13px] px-7 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[1px]" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400 }}>
-              Ver como funciona →
-            </button>
-          </motion.div>
-        )}
-      </div>
+      {/* Subtitle - appears after typing */}
+      {phase === "complete" && (
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12, duration: revealDuration / 1000, ease: "easeOut" }}
+          className="text-[15px] text-text-muted text-center max-w-[480px] mt-8 mb-10 leading-[1.7] font-light"
+        >
+          Segurança, pagamentos e arquitetura — analisados e corrigidos com um prompt.
+        </motion.p>
+      )}
+
+      {/* Buttons - appears after typing */}
+      {phase === "complete" && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.24, duration: revealDuration / 1000, ease: "easeOut" }}
+          className="flex items-center justify-center gap-3"
+        >
+          <button className="flex items-center gap-2 text-sm text-black bg-white py-[13px] px-7 rounded-full transition-all duration-200 hover:bg-white/90 hover:-translate-y-[1px] font-medium">
+            <span className="text-star">★</span>
+            Early access
+          </button>
+          <button className="text-sm text-white/60 bg-transparent border border-white/15 py-[13px] px-7 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[1px] font-normal">
+            Ver como funciona →
+          </button>
+        </motion.div>
+      )}
+
+      {/* Scroll indicator - minimal */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 0.5 }}
+      >
+        <motion.div
+          className="w-1.5 h-1.5 rounded-full bg-white/30"
+          animate={{ y: [0, 4, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </motion.div>
     </section>
   );
 }

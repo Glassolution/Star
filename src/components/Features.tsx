@@ -83,7 +83,7 @@ function FeatureCard({
       </div>
 
       <h3
-        className={`font-syne font-bold text-[22px] tracking-[-0.5px] mb-2.5 whitespace-pre-line ${
+        className={`font-bold text-[22px] tracking-[-0.5px] mb-2.5 whitespace-pre-line ${
           feature.gold ? "text-black" : ""
         }`}
       >
@@ -119,7 +119,7 @@ function FeatureCard({
       )}
 
       {feature.soon && (
-        <div className="inline-flex items-center gap-1.5 mt-3.5 font-space-mono text-[9px] text-[#FB923C] bg-[#FB923C]/10 py-[3px] px-2.5 rounded-full tracking-[0.5px]">
+        <div className="inline-flex items-center gap-1.5 mt-3.5 text-[9px] text-[#FB923C] bg-[#FB923C]/10 py-[3px] px-2.5 rounded-full tracking-[0.5px]">
           ⏳ Em breve
         </div>
       )}
@@ -143,11 +143,11 @@ export function Features() {
           animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55 }}
         >
-          <div className="font-space-mono text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
+          <div className="text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
             <span className="w-7 h-px bg-star" />
             Features
           </div>
-          <h2 className="font-syne font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
+          <h2 className="font-bold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
             O que a STAR
             <br />
             faz por você.
