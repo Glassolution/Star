@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
 interface Particle {
   x: number;
@@ -9,45 +9,20 @@ interface Particle {
   originY: number;
   vx: number;
   vy: number;
-  baseVx: number;
-  baseVy: number;
   width: number;
   height: number;
   opacity: number;
   color: string;
   angle: number;
+  driftVx: number;
+  driftVy: number;
 }
 
 export function CosmicCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
-  const mouseRef = useRef({ x: -1000, y: -1000 });
-
-  const createParticle = useCallback((centerX: number, centerY: number): Particle => {
-    const angle = Math.random() * Math.PI * 2;
-    const distance = Math.random() * 50 + 20;
-    const speed = Math.random() * 0.15 + 0.05;
-    const baseVx = Math.cos(angle) * speed;
-    const baseVy = Math.sin(angle) * speed;
-    const isGold = Math.random() > 0.6;
-
-    return {
-      x: centerX + Math.cos(angle) * distance,
-      y: centerY + Math.sin(angle) * distance,
-      originX: centerX + Math.cos(angle) * distance,
-      originY: centerY + Math.sin(angle) * distance,
-      vx: baseVx,
-      vy: baseVy,
-      baseVx,
-      baseVy,
-      width: Math.random() * 2 + 2,
-      height: Math.random() * 1 + 1,
-      opacity: Math.random() * 0.3 + 0.3,
-      color: isGold ? "#FFD700" : "#FFFFFF",
-      angle: Math.random() * Math.PI,
-    };
-  }, []);
+  const mouseRef = useRef({ x: -9999, y: -9999 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -75,24 +50,46 @@ export function CosmicCanvas() {
     };
 
     const handleMouseLeave = () => {
-      mouseRef.current = { x: -1000, y: -1000 };
+      mouseRef.current = { x: -9999, y: -9999 };
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseleave", handleMouseLeave);
 
-    // Initialize particles from center
-    const centerX = W / 2;
-    const centerY = H / 2;
-    particlesRef.current = Array.from({ length: 200 }, () => createParticle(centerX, centerY));
+    // Initialize particles spread across the entire canvas
+    // They already exist, no lifecycle
+    const createParticle = (x?: number, y?: number): Particle => {
+      const px = x ?? Math.random() * W;
+      const py = y ?? Math.random() * H;
+      const isGold = Math.random() > 0.6;
+
+      return {
+        x: px,
+        y: py,
+        originX: px,
+        originY: py,
+        vx: 0,
+        vy: 0,
+        width: Math.random() * 2 + 2,
+        height: Math.random() * 1 + 1,
+        opacity: Math.random() * 0.3 + 0.3,
+        color: isGold ? "#FFD700" : "#FFFFFF",
+        angle: Math.random() * Math.PI,
+        driftVx: (Math.random() - 0.5) * 0.08,
+        driftVy: (Math.random() - 0.5) * 0.08,
+      };
+    };
+
+    particlesRef.current = Array.from({ length: 200 }, () => createParticle());
 
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
 
       const particles = particlesRef.current;
       const mouse = mouseRef.current;
-      const repulsionRadius = 120;
-      const repulsionStrength = 2;
+      const repulsionRadius = 140;
+      const returnStrength = 0.03; // How fast particles return to origin
+      const repulsionStrength = 8;
 
       particles.forEach((p) => {
         // Calculate distance from mouse
@@ -102,57 +99,71 @@ export function CosmicCanvas() {
 
         // Apply repulsion if within radius
         if (distance < repulsionRadius && distance > 0) {
-          const force = (repulsionRadius - distance) / repulsionRadius * repulsionStrength;
+          const force = (repulsionRadius - distance) / repulsionRadius;
           const angle = Math.atan2(dy, dx);
-          p.vx += Math.cos(angle) * force * 0.1;
-          p.vy += Math.sin(angle) * force * 0.1;
+          p.vx += Math.cos(angle) * force * repulsionStrength * 0.1;
+          p.vy += Math.sin(angle) * force * repulsionStrength * 0.1;
         }
 
-        // Gradually return to base velocity
-        p.vx += (p.baseVx - p.vx) * 0.02;
-        p.vy += (p.baseVy - p.vy) * 0.02;
+        // Return to origin with easing
+        const returnDx = p.originX - p.x;
+        const returnDy = p.originY - p.y;
+        p.vx += returnDx * returnStrength;
+        p.vy += returnDy * returnStrength;
+
+        // Apply very slow drift to origin position
+        p.originX += p.driftVx;
+        p.originY += p.driftVy;
+
+        // Wrap origin position around screen
+        if (p.originX < 0) p.originX = W;
+        if (p.originX > W) p.originX = 0;
+        if (p.originY < 0) p.originY = H;
+        if (p.originY > H) p.originY = 0;
+
+        // Apply velocity with damping
+        p.vx *= 0.92;
+        p.vy *= 0.92;
 
         // Update position
         p.x += p.vx;
         p.y += p.vy;
 
-        // Slowly drift outward from center
-        const currentCenterX = W / 2;
-        const currentCenterY = H / 2;
-        const toCenterX = p.x - currentCenterX;
-        const toCenterY = p.y - currentCenterY;
-        const distFromCenter = Math.sqrt(toCenterX * toCenterX + toCenterY * toCenterY);
-
-        // Slight outward drift
-        if (distFromCenter > 0) {
-          const driftSpeed = 0.005;
-          p.baseVx += (toCenterX / distFromCenter) * driftSpeed;
-          p.baseVy += (toCenterY / distFromCenter) * driftSpeed;
+        // Wrap position around screen
+        if (p.x < 0) {
+          p.x = W;
+          p.originX = W + (p.originX - p.x);
+        }
+        if (p.x > W) {
+          p.x = 0;
+          p.originX = -(p.originX - p.x);
+        }
+        if (p.y < 0) {
+          p.y = H;
+          p.originY = H + (p.originY - p.y);
+        }
+        if (p.y > H) {
+          p.y = 0;
+          p.originY = -(p.originY - p.y);
         }
 
-        // Reset if too far from center
-        if (distFromCenter > Math.max(W, H) * 0.8) {
-          const newParticle = createParticle(currentCenterX, currentCenterY);
-          p.x = newParticle.x;
-          p.y = newParticle.y;
-          p.originX = newParticle.originX;
-          p.originY = newParticle.originY;
-          p.vx = newParticle.vx;
-          p.vy = newParticle.vy;
-          p.baseVx = newParticle.baseVx;
-          p.baseVy = newParticle.baseVy;
-        }
+        // Ensure origin stays in bounds
+        if (p.originX < 0) p.originX += W;
+        if (p.originX > W) p.originX -= W;
+        if (p.originY < 0) p.originY += H;
+        if (p.originY > H) p.originY -= H;
 
         // Subtle rotation
-        p.angle += 0.01;
+        p.angle += 0.002;
 
         // Draw particle as small rectangle
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
-        ctx.fillStyle = p.color === "#FFD700" 
-          ? `rgba(255, 215, 0, ${p.opacity})`
-          : `rgba(255, 255, 255, ${p.opacity})`;
+        ctx.fillStyle =
+          p.color === "#FFD700"
+            ? `rgba(255, 215, 0, ${p.opacity})`
+            : `rgba(255, 255, 255, ${p.opacity})`;
         ctx.fillRect(-p.width / 2, -p.height / 2, p.width, p.height);
         ctx.restore();
       });
@@ -168,7 +179,7 @@ export function CosmicCanvas() {
       window.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationRef.current);
     };
-  }, [createParticle]);
+  }, []);
 
   return (
     <canvas
