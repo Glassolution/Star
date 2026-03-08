@@ -1,4 +1,3 @@
-import { CosmicCanvas } from "@/components/CosmicCanvas";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -12,9 +11,8 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <>
-      <CosmicCanvas />
       <Navbar />
-      <main>
+      <main className="bg-black">
         <Hero />
         <HowItWorks />
         <Demo />
