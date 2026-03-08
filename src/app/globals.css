@@ -15,6 +15,7 @@
   --font-syne: 'Syne', sans-serif;
   --font-space-mono: 'Space Mono', monospace;
   --font-dm-sans: 'DM Sans', sans-serif;
+  --font-inter: 'Inter', sans-serif;
 
   /* Custom utilities */
   --animate-spin: spin 12s linear infinite;

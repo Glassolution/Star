@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 // Title text for typing
 const titleText = "Você coda. A STAR cuida do resto.";
-const typingSpeed = 38; // ms per letter
+const typingSpeed = 94; // ms per letter (~3 seconds total)
 const pauseAfterTyping = 600; // ms
 const revealDuration = 600; // ms
 
@@ -65,7 +65,7 @@ export function Hero() {
     return (
       <>
         {formatWithLineBreaks(beforeStar)}
-        <span className="text-[#C8960C]">{starText}</span>
+        <span className="text-star">{starText}</span>
         {formatWithLineBreaks(afterStar)}
       </>
     );
@@ -125,11 +125,11 @@ export function Hero() {
         )}
 
         {/* Title - always present, typing or complete */}
-        <h1 className="font-dm-sans font-bold text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]">
+        <h1 className="font-inter font-bold text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]">
           {phase === "typing" ? renderTitle() : renderTitle(true)}
           {showCursor && (
             <span
-              className="inline-block w-[3px] h-[1em] bg-[#C8960C] ml-1 align-middle"
+              className="inline-block w-[3px] h-[1em] bg-star ml-1 align-middle"
               style={{ animation: "cursor-blink 0.9s step-end infinite" }}
             />
           )}
