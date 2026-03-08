@@ -26,11 +26,13 @@ export function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.6 }}
-        className="font-syne font-extrabold text-[clamp(40px,7vw,72px)] leading-[1.05] tracking-[-2px] text-white text-center max-w-[800px] mb-6"
+        className="font-dm-sans font-bold text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px] mb-6"
       >
-        Conecte seu repo.
+        Você coda.
         <br />
-        A <span className="text-star">STAR</span> cuida do que a IA esqueceu.
+        A <span className="text-star">STAR</span> cuida
+        <br />
+        do resto.
       </motion.h1>
 
       {/* Subtitle */}
