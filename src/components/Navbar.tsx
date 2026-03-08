@@ -34,23 +34,9 @@ export function Navbar() {
       }`}
       id="mainNav"
     >
-      <a href="#" className="flex items-center gap-2.5 no-underline group">
-        <span className="w-[22px] h-[22px] relative">
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            fill="none"
-            className="animate-spin"
-            style={{ animationDuration: "12s" }}
-          >
-            <path
-              d="M11 1L13.5 8.5H21.5L15 13L17.5 20.5L11 16L4.5 20.5L7 13L0.5 8.5H8.5L11 1Z"
-              fill="#FFD700"
-            />
-          </svg>
-        </span>
-        <span className="font-syne font-extrabold text-[26px] tracking-[-1px] text-white">
+      <a href="#" className="flex items-center gap-2 no-underline group">
+        <span className="text-star text-xl">★</span>
+        <span className="font-syne font-extrabold text-[16px] text-star tracking-[-0.5px]">
           STAR
         </span>
       </a>
@@ -60,7 +46,7 @@ export function Navbar() {
           <li key={link.href}>
             <a
               href={link.href}
-              className="font-dm-sans text-sm text-white/65 no-underline transition-colors duration-200 hover:text-white font-normal tracking-[0.2px]"
+              className="font-dm-sans text-sm text-white/50 no-underline transition-colors duration-200 hover:text-white font-normal tracking-[0.2px]"
             >
               {link.label}
             </a>
@@ -68,12 +54,9 @@ export function Navbar() {
         ))}
       </ul>
 
-      <div className="flex items-center gap-2.5">
-        <span className="font-space-mono text-[10px] py-[3px] px-[9px] border border-star/35 text-star rounded-full tracking-[0.5px]">
-          Em breve
-        </span>
-        <button className="font-dm-sans text-[13px] font-medium py-[9px] px-[22px] bg-white/15 text-white border border-white/20 backdrop-blur-sm rounded-full transition-all duration-200 hover:bg-white/22 hover:-translate-y-[1px]">
-          Early Access
+      <div className="flex items-center gap-3">
+        <button className="font-dm-sans text-sm font-medium py-[10px] px-5 bg-star text-black rounded-full transition-all duration-200 hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(255,215,0,0.3)]">
+          Conectar GitHub
         </button>
       </div>
     </motion.nav>
