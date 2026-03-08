@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const titleText = "Você coda. A STAR cuida do resto.";
 const typingSpeed = 94; // ms per letter (~3 seconds total)
 const pauseAfterTyping = 600; // ms
-const revealDuration = 600; // ms
+const revealDuration = 600; // ms;
 
 export function Hero() {
   const [phase, setPhase] = useState<"typing" | "complete">("typing");
@@ -43,12 +43,13 @@ export function Hero() {
     }
   }, [typedCount, phase]);
 
-  // Render title with STAR in gold
+  // Render title with STAR in gold and animated underline
   const renderTitle = (showFull: boolean = false) => {
     const text = showFull ? titleText : titleText.slice(0, typedCount);
 
     // Position of "STAR" in the text (after "Você coda. A ")
     const starStart = 13;
+    const starEnd = starStart + 4;
 
     if (!showFull && typedCount <= starStart) {
       // STAR hasn't been reached yet
@@ -57,15 +58,26 @@ export function Hero() {
 
     // STAR is partially or fully typed
     const beforeStar = text.slice(0, starStart);
-    const starEnd = starStart + 4;
     const typedStarEnd = showFull ? starEnd : Math.min(starEnd, typedCount);
     const starText = text.slice(starStart, typedStarEnd);
     const afterStar = text.slice(typedStarEnd);
 
+    // Calculate underline width based on how much of STAR is typed
+    const starProgress = showFull ? 1 : (typedCount - starStart) / 4;
+
     return (
       <>
         {formatWithLineBreaks(beforeStar)}
-        <span className="text-star">{starText}</span>
+        <span className="relative inline-block text-star">
+          {starText}
+          {/* Animated underline under STAR */}
+          <motion.span
+            className="absolute left-0 -bottom-1 h-[3px] bg-star rounded-full"
+            initial={{ width: 0 }}
+            animate={{ width: `${starProgress * 100}%` }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+          />
+        </span>
         {formatWithLineBreaks(afterStar)}
       </>
     );
@@ -122,7 +134,7 @@ export function Hero() {
         )}
 
         {/* Title - always present, typing or complete */}
-        <h1 className="font-dm-sans font-bold text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]">
+        <h1 className="text-[clamp(40px,7vw,72px)] leading-[1.1] tracking-[-1.5px] text-white text-center max-w-[800px]" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}>
           {phase === "typing" ? renderTitle() : renderTitle(true)}
           {showCursor && (
             <span
@@ -138,7 +150,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.12, duration: revealDuration / 1000, ease: "easeOut" }}
-            className="font-dm-sans font-light text-[15px] text-white/40 text-center max-w-[420px] mt-6 mb-10 leading-[1.7]"
+            className="text-[15px] text-white/40 text-center max-w-[420px] mt-6 mb-10 leading-[1.7]" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300 }}
           >
             Segurança, pagamentos e arquitetura — analisados e corrigidos com um
             prompt.
@@ -153,7 +165,7 @@ export function Hero() {
             transition={{ delay: 0.24, duration: revealDuration / 1000, ease: "easeOut" }}
             className="flex items-center justify-center gap-3"
           >
-            <button className="flex items-center gap-2 font-dm-sans text-sm font-medium text-black bg-white py-[13px] px-7 rounded-full transition-all duration-200 hover:bg-white/90 hover:-translate-y-[1px]">
+            <button className="flex items-center gap-2 text-sm text-black bg-white py-[13px] px-7 rounded-full transition-all duration-200 hover:bg-white/90 hover:-translate-y-[1px]" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
               <svg
                 width="16"
                 height="16"
@@ -168,7 +180,7 @@ export function Hero() {
               </svg>
               Early access
             </button>
-            <button className="font-dm-sans text-sm font-normal text-white/60 bg-transparent border border-white/15 py-[13px] px-7 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[1px]">
+            <button className="text-sm text-white/60 bg-transparent border border-white/15 py-[13px] px-7 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[1px]" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400 }}>
               Ver como funciona →
             </button>
           </motion.div>
