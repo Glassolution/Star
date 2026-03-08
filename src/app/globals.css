@@ -20,6 +20,7 @@
   --animate-spin: spin 12s linear infinite;
   --animate-marquee: marquee 22s linear infinite;
   --animate-blink: blink 2s ease-in-out infinite;
+  --animate-cursor-blink: cursor-blink 0.9s step-end infinite;
   --animate-scan-pulse: scanPulse 1.5s ease-in-out infinite;
   --animate-scan-fill: scanFill 2.5s ease-in-out infinite alternate;
 
@@ -34,6 +35,11 @@
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.15; }
+  }
+
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 
   @keyframes scanPulse {
