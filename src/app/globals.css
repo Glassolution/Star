@@ -1,182 +1,31 @@
-@import "tailwindcss";
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  /* Colors */
-  --color-black: #080808;
-  --color-deep: #111113;
+:root {
+  --color-black: #000000;
+  --color-deep: #0a0a0a;
   --color-white: #FAFAFA;
-  --color-star: #FFD400;
-  --color-accent: #FF4D1C;
-  --color-muted: #18181B;
-  --color-text-muted: #71717A;
-  --color-border: rgba(255, 255, 255, 0.08);
+  --color-star: #FFD700;
+  --color-accent: #FFD700;
+  --color-muted: #111111;
+  --color-text-muted: #888888;
+  --color-border: rgba(255, 255, 255, 0.1);
+}
 
-  /* Grid System */
-  --grid-line-color: rgba(255, 255, 255, 0.1);
-  --grid-dot-color: rgba(255, 215, 0, 0.2);
-
-  /* Custom utilities */
-  --animate-spin: spin 12s linear infinite;
-  --animate-marquee: marquee 22s linear infinite;
-  --animate-blink: blink 2s ease-in-out infinite;
-  --animate-cursor-blink: cursor-blink 0.9s step-end infinite;
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-
-  @keyframes marquee {
-    to { transform: translateX(-50%); }
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.15; }
-  }
-
-  @keyframes cursor-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+  body {
+    background: #000000;
+    color: #FAFAFA;
+    font-family: var(--font-geist-sans), sans-serif;
+    overflow-x: hidden;
   }
 }
 
-/* Base styles */
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: var(--color-black);
-  color: var(--color-white);
-  font-family: var(--font-geist-sans), sans-serif;
-  overflow-x: hidden;
-  position: relative;
-}
-
-/* Fixed vertical grid lines */
-body::before,
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.06);
-  z-index: 50;
-  pointer-events: none;
-}
-
-body::before {
-  left: calc((100vw - 1280px) / 2);
-}
-
-body::after {
-  right: calc((100vw - 1280px) / 2);
-}
-
-@media (max-width: 1280px) {
-  body::before {
-    left: 40px;
-  }
-  body::after {
-    right: 40px;
-  }
-}
-
-/* Hide system cursor only when hovering over interactive elements */
-button:hover, a:hover {
-  cursor: none;
-}
-
-/* Selection */
 ::selection {
-  background: var(--color-star);
-  color: var(--color-black);
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-black);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-muted);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
-}
-
-/* ========================================
-   STRUCTURAL GRID SYSTEM - SECTION SPECIFIC
-   ======================================== */
-
-/* Vertical grid line */
-.grid-v {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--grid-line-color);
-  pointer-events: none;
-}
-
-/* Horizontal grid line */
-.grid-h {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--grid-line-color);
-  pointer-events: none;
-}
-
-/* Cross marker at intersections */
-.grid-cross {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.grid-cross::before,
-.grid-cross::after {
-  content: '';
-  position: absolute;
-  background: var(--grid-dot-color);
-}
-
-.grid-cross::before {
-  width: 1px;
-  height: 10px;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-}
-
-.grid-cross::after {
-  width: 10px;
-  height: 1px;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-}
-
-/* Diagonal hatching separator - 40px height */
-.diagonal-hatching {
-  width: 100%;
-  height: 40px;
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.03) 0px,
-    rgba(255, 255, 255, 0.03) 1px,
-    transparent 1px,
-    transparent 8px
-  );
+  background: #FFD700;
+  color: #000000;
 }
