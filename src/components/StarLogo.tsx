@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 interface StarLogoProps {
   variant?: "dark" | "light";
   size?: "sm" | "md" | "lg";
@@ -17,7 +19,10 @@ export function StarLogo({ variant = "dark", size = "md", showText = true }: Sta
   const textColor = variant === "dark" ? "text-white" : "text-black";
 
   return (
-    <div className={`flex items-center ${gap}`}>
+    <Link 
+      href="/chat" 
+      className={`flex items-center ${gap} hover:opacity-80 transition-opacity cursor-pointer`}
+    >
       {/* Diamond Icon */}
       <svg
         width={icon}
@@ -73,6 +78,6 @@ export function StarLogo({ variant = "dark", size = "md", showText = true }: Sta
           STAR
         </span>
       )}
-    </div>
+    </Link>
   );
 }
