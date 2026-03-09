@@ -71,8 +71,8 @@ export function StarBackground() {
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     setMousePosition({
-      x: (e.clientX / window.innerWidth) * 100,
-      y: (e.clientY / window.innerHeight) * 100,
+      x: e.clientX,
+      y: e.clientY,
     });
   }, []);
 
@@ -86,17 +86,18 @@ export function StarBackground() {
       {/* Cursor follower circle */}
       <motion.div
         className="absolute w-12 h-12 border-2 border-[#FFD700] rounded-full"
-        style={{
-          left: `${mousePosition.x}%`,
-          top: `${mousePosition.y}%`,
-          transform: "translate(-50%, -50%)",
-          boxShadow: "0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.2)",
+        animate={{
+          x: mousePosition.x - 24,
+          y: mousePosition.y - 24,
         }}
         transition={{
           type: "spring",
-          stiffness: 150,
-          damping: 15,
-          mass: 0.1,
+          stiffness: 100,
+          damping: 20,
+          mass: 0.5,
+        }}
+        style={{
+          boxShadow: "0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.2)",
         }}
       />
 
