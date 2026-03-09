@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PhoneInput } from "@/components/PhoneInput";
+import { StarBackground } from "@/components/StarBackground";
 
 interface FormData {
   fullName: string;
@@ -69,7 +70,9 @@ export default function EarlyAccessPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-12">
+    <>
+      <StarBackground />
+      <div className="min-h-screen bg-black flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <AnimatePresence mode="wait">
           {!isSuccess ? (
@@ -278,9 +281,12 @@ export default function EarlyAccessPage() {
           )}
         </AnimatePresence>
       </div>
-    </div>
+          </div>
+    </>
   );
 }
+
+
 
 
 
