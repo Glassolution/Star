@@ -34,7 +34,9 @@ function GitHubConnect() {
         <div className="flex items-center gap-2 py-2 px-3 bg-[#1A1A28] border border-star/40 rounded-md text-[11px] text-white">
           <span>📁</span>
           meu-saas
-          <span className="ml-auto text-star">★</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="ml-auto">
+            <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#FFD400"/>
+          </svg>
         </div>
         <div className="flex items-center gap-2 py-2 px-3 bg-[#141420] border border-white/6 rounded-md text-[11px] text-white/70">
           <span>📁</span>
@@ -153,7 +155,10 @@ function Results() {
 
       <div className="bg-[#060609] border border-star/15 rounded-md p-2.5 mt-2">
         <div className="text-[8px] uppercase tracking-[1.5px] text-star mb-1.5 flex items-center gap-1">
-          ★ Prompt STAR
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#FFD400"/>
+          </svg>
+          Prompt STAR
         </div>
         <div className="text-[9.5px] text-[#AAAABB] leading-[1.6]">
           Mova <span className="text-star">STRIPE_SECRET</span> para{" "}
@@ -260,8 +265,10 @@ function ChatDemo() {
 
             {/* STAR Response */}
             <div className="flex gap-2.5 items-start">
-              <div className="w-7 h-7 bg-star rounded-full flex items-center justify-center shrink-0 text-xs">
-                ★
+              <div className="w-7 h-7 bg-star rounded-full flex items-center justify-center shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#080808"/>
+                </svg>
               </div>
               <div className="bg-[#141420] border border-white/8 py-3 px-4 rounded-md rounded-tr-2xl rounded-br-2xl rounded-bl-2xl max-w-[85%]">
                 <div className="text-xs font-semibold text-star mb-1.5">
@@ -294,8 +301,10 @@ function ChatDemo() {
 
             {/* STAR Prompt Response */}
             <div className="flex gap-2.5 items-start">
-              <div className="w-7 h-7 bg-star rounded-full flex items-center justify-center shrink-0 text-xs">
-                ★
+              <div className="w-7 h-7 bg-star rounded-full flex items-center justify-center shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#080808"/>
+                </svg>
               </div>
               <div className="bg-[#141420] border border-white/8 py-3 px-4 rounded-md rounded-tr-2xl rounded-br-2xl rounded-bl-2xl max-w-[90%]">
                 <div className="text-xs font-semibold text-star mb-2">
@@ -403,10 +412,18 @@ export function Demo() {
 
   return (
     <section
-      className="relative z-1 py-[120px] bg-white/8 border-t border-star/6"
+      className="relative py-[120px]"
       id="demo"
     >
-      <div className="max-w-[1100px] mx-auto px-[60px]">
+      {/* Cross markers */}
+      <div className="grid-cross" style={{ top: 0, left: '55%' }} />
+      <div className="grid-cross" style={{ bottom: 0, left: '55%' }} />
+      
+      {/* Horizontal lines */}
+      <div className="grid-h" style={{ top: 0 }} />
+      <div className="grid-h" style={{ bottom: 0 }} />
+
+      <div className="max-w-[1280px] mx-auto">
         <motion.div
           ref={headerRef}
           initial={{ opacity: 0, y: 24 }}
@@ -429,7 +446,7 @@ export function Demo() {
         </motion.div>
 
         {/* Steps Visual */}
-        <div className="grid grid-cols-[1fr_32px_1fr_32px_1fr] items-center gap-0 mb-20">
+        <div className="grid grid-cols-[1fr_32px_1fr_32px_1fr] items-center gap-0 mb-20 max-w-[1100px] mx-auto">
           <DemoCard
             windowTitle="star — conectar repositório"
             stepNum="1 — Conectar"

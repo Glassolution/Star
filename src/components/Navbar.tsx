@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { StarLogo } from "./StarLogo";
 
 const navLinks = [
   { href: "#como-funciona", label: "Como funciona" },
@@ -29,28 +30,26 @@ export function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-[30px] left-0 right-0 z-200 flex items-center justify-center transition-all duration-300`}
     >
-      <div
-        className={`flex items-center gap-8 px-[24px] py-[14px] rounded-full transition-all duration-300 ${
-          scrolled
-            ? "bg-black/80 backdrop-blur-xl border border-white/5"
-            : "bg-transparent"
-        }`}
-      >
-        <a href="#" className="flex items-center gap-2 no-underline group">
-          <span className="text-star text-lg">★</span>
-          <span className="text-[14px] text-star font-bold tracking-[-0.5px]">
-            STAR
-          </span>
+      <div className={`max-w-[1280px] mx-auto px-0 flex items-center justify-center`}>
+        <div
+          className={`flex items-center gap-6 px-[20px] py-[12px] rounded-full transition-all duration-300 ${
+            scrolled
+              ? "bg-black/90 backdrop-blur-xl border border-white/5"
+              : "bg-transparent"
+          }`}
+        >
+        <a href="#" className="no-underline group">
+          <StarLogo variant="dark" size="sm" />
         </a>
 
-        <div className="w-px h-4 bg-white/10" />
+        <div className="w-px h-3 bg-white/10" />
 
-        <ul className="flex gap-6 list-none">
+        <ul className="flex gap-5 list-none">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-[13px] text-white/60 no-underline transition-colors duration-200 hover:text-white font-normal tracking-[0.2px]"
+                className="text-[12px] text-white/60 no-underline transition-colors duration-200 hover:text-white font-normal tracking-[0.2px]"
               >
                 {link.label}
               </a>
@@ -58,12 +57,13 @@ export function Navbar() {
           ))}
         </ul>
 
-        <div className="w-px h-4 bg-white/10" />
+        <div className="w-px h-3 bg-white/10" />
 
         <div className="flex items-center">
-          <button className="text-[13px] font-medium py-[8px] px-4 bg-white text-black rounded-full transition-all duration-200 hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(255,255,255,0.1)]">
+          <button className="text-[12px] font-medium py-[7px] px-4 bg-white text-black rounded-full transition-all duration-200 hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(255,255,255,0.1)]">
             Early access
           </button>
+        </div>
         </div>
       </div>
     </motion.nav>

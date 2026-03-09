@@ -47,9 +47,8 @@ function StepCard({
       initial={{ opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.1, duration: 0.55 }}
-      className="bg-muted p-11 px-9 relative overflow-hidden transition-all duration-300 cursor-default group hover:bg-[#262632]"
+      className="p-11 relative transition-all duration-300 cursor-default group hover:bg-white/[0.02]"
     >
-      {/* Top border animation on hover */}
       <div className="absolute top-0 left-0 right-0 h-0.5 bg-star scale-x-0 origin-left transition-transform duration-400 group-hover:scale-x-100" />
 
       <div className="font-extrabold text-[72px] text-star/7 leading-none mb-5 transition-colors duration-300 group-hover:text-star/13">
@@ -78,8 +77,21 @@ export function HowItWorks() {
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
 
   return (
-    <section className="relative z-1 py-[120px]" id="como-funciona">
-      <div className="max-w-[1100px] mx-auto px-[60px]">
+    <section className="relative py-[120px]" id="como-funciona">
+      {/* Cross markers at top */}
+      <div className="grid-cross" style={{ top: 0, left: '33.333%' }} />
+      <div className="grid-cross" style={{ top: 0, left: '66.666%' }} />
+      
+      {/* Cross markers at bottom */}
+      <div className="grid-cross" style={{ bottom: 0, left: '33.333%' }} />
+      <div className="grid-cross" style={{ bottom: 0, left: '66.666%' }} />
+      
+      {/* Horizontal lines */}
+      <div className="grid-h" style={{ top: 0 }} />
+      <div className="grid-h" style={{ bottom: 0 }} />
+
+      {/* Content */}
+      <div className="max-w-[1280px] mx-auto">
         <motion.div
           ref={headerRef}
           initial={{ opacity: 0, y: 24 }}
@@ -98,9 +110,15 @@ export function HowItWorks() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-3 gap-0.5">
+        {/* 3 columns with border separators */}
+        <div className="grid grid-cols-3 border-t border-b border-white/10">
           {steps.map((step, index) => (
-            <StepCard key={step.number} step={step} index={index} />
+            <div
+              key={step.number}
+              className={`border-r border-white/10 last:border-r-0`}
+            >
+              <StepCard step={step} index={index} />
+            </div>
           ))}
         </div>
       </div>
