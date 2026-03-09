@@ -85,7 +85,7 @@ export default function EarlyAccessPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3"
+                  className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3 font-display"
                 >
                   <motion.svg
                     width="40"
@@ -270,7 +270,7 @@ export default function EarlyAccessPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </motion.div>
-              <h2 className="text-3xl font-bold text-white mb-4">Inscrição realizada!</h2>
+              <h2 className="text-3xl font-bold text-white mb-4 font-display">Inscrição realizada!</h2>
               <p className="text-[#888888]">
                 Obrigado pelo interesse. Entraremos em contato em breve.
               </p>
@@ -281,4 +281,6 @@ export default function EarlyAccessPage() {
     </div>
   );
 }
+
+
 
