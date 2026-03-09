@@ -29,7 +29,9 @@ export function Marquee() {
             className="text-[11px] tracking-[2px] uppercase text-text-muted flex items-center gap-3.5 shrink-0"
           >
             {item}
-            <span className="text-star opacity-50">★</span>
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" className="opacity-50">
+              <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#FFD400"/>
+            </svg>
           </span>
         ))}
       </div>

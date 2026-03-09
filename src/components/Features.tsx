@@ -57,11 +57,10 @@ function FeatureCard({
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const baseClasses =
-    "bg-muted border border-white/5 rounded-2xl p-9 relative overflow-hidden transition-all duration-300 cursor-default hover:bg-[#242432] hover:border-star/10";
+    "p-9 relative overflow-hidden transition-all duration-300 cursor-default hover:bg-white/[0.02]";
 
-  const sizeClasses = feature.big ? "col-span-2" : "";
   const goldClasses = feature.gold
-    ? "bg-star border-transparent hover:bg-[#FFE030]"
+    ? "bg-star hover:bg-[#FFE030]"
     : "";
 
   return (
@@ -70,13 +69,13 @@ function FeatureCard({
       initial={{ opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.07, duration: 0.55 }}
-      className={`${baseClasses} ${sizeClasses} ${goldClasses}`}
+      className={`${baseClasses} ${goldClasses}`}
     >
       <div
         className={`w-12 h-12 rounded-xl flex items-center justify-center text-[22px] mb-6 ${
           feature.gold
-            ? "bg-black/10 border border-black/15"
-            : "bg-star/8 border border-star/15"
+            ? "bg-black/10"
+            : "bg-star/8"
         }`}
       >
         {feature.icon}
@@ -132,11 +131,22 @@ export function Features() {
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
 
   return (
-    <section
-      className="relative z-1 py-[120px] border-t border-star/6"
-      id="features"
-    >
-      <div className="max-w-[1100px] mx-auto px-[60px]">
+    <section className="relative py-[120px]" id="features">
+      {/* Cross markers at top */}
+      <div className="grid-cross" style={{ top: 0, left: '25%' }} />
+      <div className="grid-cross" style={{ top: 0, left: '50%' }} />
+      <div className="grid-cross" style={{ top: 0, left: '75%' }} />
+      
+      {/* Cross markers at bottom */}
+      <div className="grid-cross" style={{ bottom: 0, left: '25%' }} />
+      <div className="grid-cross" style={{ bottom: 0, left: '50%' }} />
+      <div className="grid-cross" style={{ bottom: 0, left: '75%' }} />
+      
+      {/* Horizontal lines */}
+      <div className="grid-h" style={{ top: 0 }} />
+      <div className="grid-h" style={{ bottom: 0 }} />
+
+      <div className="max-w-[1280px] mx-auto">
         <motion.div
           ref={headerRef}
           initial={{ opacity: 0, y: 24 }}
@@ -147,17 +157,35 @@ export function Features() {
             <span className="w-7 h-px bg-star" />
             Features
           </div>
-          <h2 className="font-bold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
+          <h2 className="font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
             O que a STAR
             <br />
             faz por você.
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-3 grid-rows-2 gap-3 mt-16">
-          {features.map((feature, index) => (
-            <FeatureCard key={index} feature={feature} index={index} />
-          ))}
+        {/* Bento grid - cards with border separators */}
+        <div className="grid grid-cols-4 border-t border-b border-white/10 mt-16">
+          {/* Security card - spans 2 columns */}
+          <div className="col-span-2 border-r border-white/10">
+            <FeatureCard feature={features[0]} index={0} />
+          </div>
+          {/* Desktop app - 1 column */}
+          <div className="col-span-1 border-r border-white/10">
+            <FeatureCard feature={features[1]} index={1} />
+          </div>
+          {/* Payments - 1 column */}
+          <div className="col-span-1">
+            <FeatureCard feature={features[2]} index={2} />
+          </div>
+          {/* Architecture - 1 column */}
+          <div className="col-span-1 border-r border-white/10">
+            <FeatureCard feature={features[3]} index={3} />
+          </div>
+          {/* Webhooks - 1 column */}
+          <div className="col-span-1 col-start-2">
+            <FeatureCard feature={features[4]} index={4} />
+          </div>
         </div>
       </div>
     </section>
