@@ -60,9 +60,9 @@ export function Navbar() {
         <div className="w-px h-3 bg-white/10" />
 
         <div className="flex items-center">
-          <button className="text-[12px] font-medium py-[7px] px-4 bg-white text-black rounded-full transition-all duration-200 hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(255,255,255,0.1)]">
+          <a href="/early-access" className="text-[12px] font-medium py-[7px] px-4 bg-white text-black rounded-full transition-all duration-200 hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(255,255,255,0.1)]">
             Early access
-          </button>
+          </a>
         </div>
         </div>
       </div>

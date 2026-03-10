@@ -394,12 +394,12 @@ export function Hero() {
               transition={{ delay: 0.24, duration: revealDuration / 1000, ease: "easeOut" }}
               className="flex items-center justify-center gap-3"
             >
-              <button className="flex items-center gap-2 font-dm-sans text-sm font-medium text-black bg-star border-none py-3 px-6 rounded-full transition-all duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(255,215,0,0.3)] cursor-pointer">
+              <a href="/early-access" className="flex items-center gap-2 font-dm-sans text-sm font-medium text-black bg-star border-none py-3 px-6 rounded-full transition-all duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(255,215,0,0.3)] cursor-pointer">
                 Early Access
-              </button>
-              <button className="font-dm-sans text-sm font-normal text-white/50 bg-transparent border border-white/15 py-3 px-6 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[2px]">
+              </a>
+              <a href="#como-funciona" className="font-dm-sans text-sm font-normal text-white/50 bg-transparent border border-white/15 py-3 px-6 rounded-full transition-all duration-200 hover:text-white/80 hover:border-white/25 hover:-translate-y-[2px]">
                 Ver como funciona →
-              </button>
+              </a>
             </motion.div>
           </>
         )}

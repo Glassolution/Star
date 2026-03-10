@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -126,29 +126,7 @@ export function StarBackground() {
         />
       ))}
 
-      {/* Plus signs */}
-      {Array.from({ length: 15 }).map((_, i) => (
-        <motion.div
-          key={`plus-${i}`}
-          className="absolute text-[#FFD700] text-lg"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            opacity: [0.3, 0.8, 0.3],
-            rotate: [0, 90, 0],
-          }}
-          transition={{
-            duration: 4 + Math.random() * 4,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-            ease: "easeInOut",
-          }}
-        >
-          +
-        </motion.div>
-      ))}
+      
 
       {/* Code snippets */}
       {codes.map((code) => (

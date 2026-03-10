@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
@@ -60,5 +60,51 @@ export async function POST(request: NextRequest) {
       { error: "Erro interno do servidor" },
       { status: 500 }
     );
+  }
+}
+
+export async function GET() {
+  try {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const weekStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    const [{ data, error: listError }, { count: totalCount, error: totalError }, { count: todayCount, error: todayError }, { count: weekCount, error: weekError }] =
+      await Promise.all([
+        supabase
+          .from("early_access")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(200),
+        supabase
+          .from("early_access")
+          .select("*", { count: "exact", head: true }),
+        supabase
+          .from("early_access")
+          .select("*", { count: "exact", head: true })
+          .gte("created_at", today.toISOString()),
+        supabase
+          .from("early_access")
+          .select("*", { count: "exact", head: true })
+          .gte("created_at", weekStart.toISOString()),
+      ]);
+
+    if (listError || totalError || todayError || weekError) {
+      return NextResponse.json({ error: "Erro ao listar dados" }, { status: 500 });
+    }
+
+    return NextResponse.json(
+      {
+        data: data ?? [],
+        counts: {
+          total: totalCount ?? 0,
+          today: todayCount ?? 0,
+          week: weekCount ?? 0,
+        },
+      },
+      { status: 200 }
+    );
+  } catch {
+    return NextResponse.json({ error: "Erro interno" }, { status: 500 });
   }
 }

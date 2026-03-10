@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { Hono } from 'hono';
 import { z } from 'zod';
-import { sql, eq } from 'drizzle-orm';
+import { sql, eq, desc } from 'drizzle-orm';
 import { db } from '../db/index.js';
 import { waitlistUsers } from '../db/schema.js';
 import { validateBody } from '../middleware/validate.js';
@@ -12,6 +12,10 @@ import { sendWelcomeEmail, sendConfirmationSuccessEmail } from '../services/emai
 const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
+  fullName: z.string().min(1, 'Nome obrigatório'),
+  phone: z.string().min(5, 'Telefone obrigatório'),
+  projectType: z.string().min(1, 'Tipo de projeto obrigatório'),
+  referralSource: z.string().optional().nullable(),
 });
 
 export type RegisterBody = z.infer<typeof registerSchema>;
@@ -39,14 +43,13 @@ type WaitlistVariables = { validatedBody?: RegisterBody };
 
 export const waitlistRouter = new Hono<{ Variables: WaitlistVariables }>();
 
-// POST /register — Cadastra novo usuário na waitlist com email e senha
 waitlistRouter.post('/register', validateBody(registerSchema), async (c): Promise<Response> => {
   const body = c.get('validatedBody');
   if (!body) {
     throw new Error('Validated body not found');
   }
 
-  const { email: rawEmail, password } = body;
+  const { email: rawEmail, password, fullName, phone, projectType, referralSource } = body;
 
   const email = rawEmail.trim().toLowerCase();
 
@@ -82,6 +85,10 @@ waitlistRouter.post('/register', validateBody(registerSchema), async (c): Promis
     await db.insert(waitlistUsers).values({
       email,
       passwordHash,
+      fullName,
+      phone,
+      projectType,
+      referralSource: referralSource ?? null,
       confirmed: false,
       confirmationToken,
       position,
@@ -109,7 +116,6 @@ waitlistRouter.post('/register', validateBody(registerSchema), async (c): Promis
   }
 });
 
-// GET /confirm/:token — Confirma email do usuário via token
 waitlistRouter.get('/confirm/:token', async (c): Promise<Response> => {
   const token = c.req.param('token');
 
@@ -163,7 +169,6 @@ waitlistRouter.get('/confirm/:token', async (c): Promise<Response> => {
   }
 });
 
-// GET /stats — Retorna total de pessoas na waitlist (para landing page)
 waitlistRouter.get('/stats', async (c): Promise<Response> => {
   try {
     const countResult = await db
@@ -188,5 +193,31 @@ waitlistRouter.get('/stats', async (c): Promise<Response> => {
       200,
     );
   }
+});
+
+waitlistRouter.get('/users', async (c): Promise<Response> => {
+  const rows = await db
+    .select()
+    .from(waitlistUsers)
+    .orderBy(desc(waitlistUsers.createdAt));
+  return c.json({
+    success: true,
+    users: rows,
+  });
+});
+
+waitlistRouter.get('/users/:id', async (c): Promise<Response> => {
+  const id = c.req.param('id');
+  if (!id) {
+    return c.json({ success: false, error: 'ID ausente' }, 400);
+  }
+  const rows = await db
+    .select()
+    .from(waitlistUsers)
+    .where(eq(waitlistUsers.id, id));
+  if (rows.length === 0) {
+    return c.json({ success: false, error: 'Usuário não encontrado' }, 404);
+  }
+  return c.json({ success: true, user: rows[0] });
 });
 
