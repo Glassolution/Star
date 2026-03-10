@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, MessageSquare, Github, History, Search, HelpCircle, Lock, Rocket, Send, ChevronDown, PanelLeft, PanelRight, Zap, CheckCircle2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Plus, MessageSquare, Github, History, Search, HelpCircle, Lock, Rocket, Send, ChevronDown, PanelLeft, PanelRight, Zap, CheckCircle2, Star } from 'lucide-react';
 import '../chat.css';
 
 interface Message {
@@ -41,8 +42,13 @@ export default function DashboardPage() {
   const [fixedIssues, setFixedIssues] = useState<Set<string>>(new Set());
   const [pickedIssue, setPickedIssue] = useState('stripe');
   const [placeholder, setPlaceholder] = useState('O que é essa senha do Stripe?');
+  const [repoName, setRepoName] = useState('meu-saas-app');
+  const [mode, setMode] = useState<'star' | 'starcoder'>('star');
+  const [changeRepoOpen, setChangeRepoOpen] = useState(false);
+  const [toastText, setToastText] = useState<string | null>(null);
 
   const feedRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const placeholders = [
@@ -58,6 +64,18 @@ export default function DashboardPage() {
       setPlaceholder(placeholders[++i % placeholders.length]);
     }, 3500);
     return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    try {
+      const n = typeof window !== 'undefined' ? localStorage.getItem('star:repo_name') : null;
+      if (n) setRepoName(n);
+    } catch {}
+  }, []);
+  useEffect(() => {
+    try {
+      const m = typeof window !== 'undefined' ? localStorage.getItem('star:mode') : null;
+      if (m === 'starcoder') setMode('starcoder');
+    } catch {}
   }, []);
 
   const scrollFeed = () => {
@@ -82,6 +100,16 @@ export default function DashboardPage() {
 
   const toggleSidebar = () => setSidebarCollapsed(!sidebarCollapsed);
   const togglePanel = () => setPanelCollapsed(!panelCollapsed);
+  const toggleMode = () => {
+    const next = mode === 'star' ? 'starcoder' : 'star';
+    setMode(next);
+    try { localStorage.setItem('star:mode', next); } catch {}
+  };
+  const openProjects = () => router.push('/projects');
+  const startAnalysis = () => {
+    setToastText('Análise iniciada');
+    setTimeout(() => setToastText(null), 2500);
+  };
 
   const handleCopy = (key: string) => {
     navigator.clipboard.writeText(CODES[key] || '').then(() => {
@@ -94,24 +122,24 @@ export default function DashboardPage() {
       <div className="app" style={{ visibility: 'visible' }}>
         <aside className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
           <div className="sb-top">
-            <div className="logo"><span className="logo-star">★</span> STAR</div>
-            <button className="new-btn">
+            <div className="logo"><span className="logo-star">★</span><span className="logo-text"> STAR</span></div>
+            <button className="new-btn" onClick={startAnalysis} title="Nova analise">
               <Plus size={14} />
-              Nova análise
+              <span className="new-label">Nova analise</span>
             </button>
           </div>
           <nav className="sb-nav">
-            <button className="nav-item on">
+            <button className="nav-item on" title="Conversar com a STAR">
               <MessageSquare size={15} />
-              Conversar com a STAR
+              <span className="nav-label">Conversar com a STAR</span>
             </button>
-            <button className="nav-item">
+            <button className="nav-item" onClick={openProjects} title="Meus projetos">
               <Github size={15} />
-              Meus projetos
+              <span className="nav-label">Meus projetos</span>
             </button>
-            <button className="nav-item">
+            <button className="nav-item" title="Histórico">
               <History size={15} />
-              Histórico
+              <span className="nav-label">Histórico</span>
             </button>
           </nav>
           <div className="sb-div"></div>
@@ -124,7 +152,7 @@ export default function DashboardPage() {
             <div className="user-row">
               <div className="avatar">GH</div>
               <div>
-                <div className="user-name">meu-saas-app</div>
+                <div className="user-name">{repoName}</div>
                 <div className="user-plan">Plano gratuito</div>
               </div>
             </div>
@@ -143,18 +171,68 @@ export default function DashboardPage() {
               </button>
               <div className="tb-sep"></div>
               <Github size={14} color="#6A6A80" />
-              <span className="topbar-repo">meu-saas-app</span>
+              <span className="topbar-repo">{repoName}</span>
               <span className="topbar-sep">·</span>
+              <button className="topbar-analyze" onClick={startAnalysis}>
+                Analisar projeto
+              </button>
               <span className="topbar-meta">Analisado há 3 minutos</span>
+            </div>
+            <div className="mode-toggle">
+              <button
+                className={`seg ${mode === 'star' ? 'on' : ''}`}
+                onClick={() => setMode('star')}
+              >
+                <div className={`dot-status ${mode === 'star' ? 'on' : ''}`}></div>
+                Star
+              </button>
+              <button
+                className={`seg ${mode === 'starcoder' ? 'on' : ''}`}
+                onClick={() => setMode('starcoder')}
+              >
+                <div className={`dot-status ${mode === 'starcoder' ? 'on' : ''}`}></div>
+                Star Coder
+              </button>
             </div>
             <div className="topbar-right">
               <div className="topbar-status"><div className="pulse"></div>Conectado</div>
-              <button className="change-repo-btn">
+              <button className="change-repo-btn" onClick={() => setChangeRepoOpen(v => !v)}>
                 <Zap size={12} />
                 Trocar projeto
               </button>
             </div>
           </div>
+          {changeRepoOpen && (
+            <div className="change-repo-menu">
+              <div className="change-repo-head">RECENTE</div>
+              {[
+                { name: repoName, url: `github.com/user/${repoName}`, color: '#FFD700' },
+                { name: 'Maximare', url: 'github.com/user/maximare', color: '#5EEAD4' },
+                { name: 'Berry', url: 'github.com/user/berry', color: '#C4B5FD' },
+              ].map((p, i) => (
+                <button
+                  key={i}
+                  className="change-repo-item"
+                  onClick={() => {
+                    setRepoName(p.name);
+                    try { localStorage.setItem('star:repo_name', p.name); localStorage.setItem('star:repo_url', p.url); } catch {}
+                    setChangeRepoOpen(false);
+                  }}
+                >
+                  <span className="menu-icon" style={{ background: p.color }}>{p.name[0]}</span>
+                  <span className="menu-info">
+                    <span className="menu-title">{p.name}</span>
+                    <span className="menu-sub">{p.url}</span>
+                  </span>
+                  {p.name === repoName && <CheckCircle2 size={14} className="menu-check" />}
+                </button>
+              ))}
+              <button className="change-repo-item" onClick={() => { setChangeRepoOpen(false); window.location.href = '/projects'; }}>
+                <Plus size={13} />
+                Adicionar projeto
+              </button>
+            </div>
+          )}
 
           <div className="feed" ref={feedRef}>
             {messages.length === 0 ? (
@@ -246,6 +324,18 @@ export default function DashboardPage() {
           </div>
         </aside>
       </div>
+      {toastText && (
+        <div className="toast">
+          <span className="toast-icon">★</span>
+          <div className="toast-body">
+            <div className="toast-label">STAR</div>
+            <div className="toast-title">Análise pronta</div>
+            <div className="toast-sub">{repoName} · {Math.max(1, 3 - fixedIssues.size)} problemas encontrados</div>
+            <div className="toast-progress"></div>
+          </div>
+          <button className="toast-close" onClick={() => setToastText(null)}>×</button>
+        </div>
+      )}
     </div>
   );
 }
