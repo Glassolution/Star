@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // Window bar component
 function WindowBar({ title }: { title: string }) {
@@ -229,6 +229,109 @@ function ChatDemo() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  type ChatMessage = {
+    id: string;
+    role: "user" | "assistant";
+    text: string;
+    kind?: "analysis" | "prompt" | "plain";
+    title?: string;
+    stats?: { critical: number; warnings: number };
+    critical?: { label: string; file: string; details: string };
+  };
+
+  const initialMessages: ChatMessage[] = [
+    {
+      id: "m1",
+      role: "user",
+      text: "Meu app está em produção mas não sei se está seguro. O que fazer?",
+    },
+    {
+      id: "m2",
+      role: "assistant",
+      kind: "analysis",
+      title: "STAR analisou seu repositório",
+      text: "Encontrei 3 problemas críticos e 7 avisos no seu código. O mais urgente:",
+      stats: { critical: 3, warnings: 7 },
+      critical: {
+        label: "🔑 CRÍTICO",
+        file: "api/payments.js",
+        details:
+          "Sua chave Stripe está exposta no código. Qualquer pessoa com acesso ao repo pode usar sua conta.",
+      },
+    },
+    {
+      id: "m3",
+      role: "user",
+      text: "Como resolvo isso no Lovable?",
+    },
+    {
+      id: "m4",
+      role: "assistant",
+      kind: "prompt",
+      title: "Prompt pronto para o Lovable ✓",
+      text:
+        'Em api/payments.js, remova a linha com STRIPE_SECRET = "sk_live_..." e substitua por process.env.STRIPE_SECRET_KEY. Crie o arquivo .env.local com a variável.',
+    },
+  ];
+
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages.length, loading]);
+
+  const sendToGemini = async (history: ChatMessage[]) => {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: history.map((m) => ({ role: m.role, text: m.text })),
+      }),
+    });
+
+    const json = await res.json();
+    if (!res.ok) {
+      const message = json?.error?.message ?? "Erro ao chamar Gemini";
+      throw new Error(message);
+    }
+
+    const text = (json?.text ?? "") as string;
+    return text.trim() || "Não consegui gerar uma resposta agora. Tente novamente.";
+  };
+
+  const onSend = async () => {
+    const trimmed = input.trim();
+    if (!trimmed || loading) return;
+
+    const nextHistory: ChatMessage[] = [
+      ...messages,
+      { id: `u-${Date.now()}`, role: "user", text: trimmed },
+    ];
+
+    setMessages(nextHistory);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const answer = await sendToGemini(nextHistory);
+      setMessages((prev) => [
+        ...prev,
+        { id: `a-${Date.now()}`, role: "assistant", text: answer },
+      ]);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Erro ao gerar resposta";
+      setMessages((prev) => [
+        ...prev,
+        { id: `a-${Date.now()}`, role: "assistant", text: `Erro: ${msg}` },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <motion.div
       ref={ref}
@@ -256,80 +359,131 @@ function ChatDemo() {
         <div className="grid grid-cols-2 min-h-[380px]">
           {/* Chat Messages */}
           <div className="p-6 border-r border-white/5 flex flex-col gap-3.5 overflow-hidden">
-            {/* User Message */}
-            <div className="flex justify-end">
-              <div className="bg-star text-black py-2.5 px-4 rounded-2xl rounded-br-sm max-w-[75%] text-[13px] font-medium">
-                Meu app está em produção mas não sei se está seguro. O que fazer?
-              </div>
-            </div>
+            <div className="flex-1 overflow-y-auto pr-2 flex flex-col gap-3.5">
+              {messages.map((m) => {
+                if (m.role === "user") {
+                  return (
+                    <div key={m.id} className="flex justify-end">
+                      <div className="bg-star text-black py-2.5 px-4 rounded-2xl rounded-br-sm max-w-[75%] text-[13px] font-medium whitespace-pre-wrap">
+                        {m.text}
+                      </div>
+                    </div>
+                  );
+                }
 
-            {/* STAR Response */}
-            <div className="flex gap-2.5 items-start">
-              <div className="w-7 h-7 bg-star rounded-full flex items-center justify-center shrink-0">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#080808"/>
-                </svg>
-              </div>
-              <div className="bg-[#141420] border border-white/8 py-3 px-4 rounded-md rounded-tr-2xl rounded-br-2xl rounded-bl-2xl max-w-[85%]">
-                <div className="text-xs font-semibold text-star mb-1.5">
-                  STAR analisou seu repositório
-                </div>
-                <div className="text-[13px] text-white/75 leading-[1.6]">
-                  Encontrei{" "}
-                  <strong className="text-[#F87171]">3 problemas críticos</strong>{" "}
-                  e <strong className="text-[#FB923C]">7 avisos</strong> no seu
-                  código. O mais urgente:
-                </div>
-                <div className="mt-2.5 bg-[#0A0A12] border border-[#F87171]/20 rounded-lg py-2.5 px-3">
-                  <div className="text-[10px] text-[#F87171] mb-1">
-                    🔑 CRÍTICO · api/payments.js
+                return (
+                  <div key={m.id} className="flex gap-2.5 items-start">
+                    <div className="w-7 h-7 bg-star rounded-full flex items-center justify-center shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#080808" />
+                      </svg>
+                    </div>
+                    <div className="bg-[#141420] border border-white/8 py-3 px-4 rounded-md rounded-tr-2xl rounded-br-2xl rounded-bl-2xl max-w-[90%]">
+                      {m.title && (
+                        <div className="text-xs font-semibold text-star mb-1.5">
+                          {m.title}
+                        </div>
+                      )}
+                      {m.kind === "analysis" && m.stats ? (
+                        <div className="text-[13px] text-white/75 leading-[1.6]">
+                          Encontrei{" "}
+                          <strong className="text-[#F87171]">
+                            {m.stats.critical} problemas críticos
+                          </strong>{" "}
+                          e{" "}
+                          <strong className="text-[#FB923C]">
+                            {m.stats.warnings} avisos
+                          </strong>{" "}
+                          no seu código. O mais urgente:
+                        </div>
+                      ) : m.kind === "prompt" && m.id === "m4" ? (
+                        <>
+                          <div className="bg-[#060609] border border-star/15 rounded-lg p-3 text-[10.5px] text-[#AAAABB] leading-[1.65]">
+                            Em <span className="text-star">api/payments.js</span>, remova a
+                            linha com{" "}
+                            <span className="text-[#7DD3FC]">
+                              STRIPE_SECRET = &quot;sk_live_...&quot;
+                            </span>{" "}
+                            e substitua por{" "}
+                            <span className="text-star">process.env.STRIPE_SECRET_KEY</span>.
+                            Crie o arquivo <span className="text-star">.env.local</span> com
+                            a variável.
+                          </div>
+                          <div className="flex gap-2 mt-2.5">
+                            <button
+                              onClick={() => navigator.clipboard?.writeText(m.text)}
+                              className="text-[9px] py-1.5 px-3.5 bg-star/8 text-star border border-star/20 rounded hover:bg-star/15 tracking-[0.5px]"
+                            >
+                              Copiar prompt
+                            </button>
+                            <button
+                              onClick={() => window.open("https://lovable.dev", "_blank", "noopener,noreferrer")}
+                              className="text-[9px] py-1.5 px-3.5 bg-star text-black rounded font-bold tracking-[0.5px]"
+                            >
+                              Abrir no Lovable →
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-[13px] text-white/75 leading-[1.6] whitespace-pre-wrap">
+                          {m.text}
+                        </div>
+                      )}
+                      {m.critical && (
+                        <div className="mt-2.5 bg-[#0A0A12] border border-[#F87171]/20 rounded-lg py-2.5 px-3">
+                          <div className="text-[10px] text-[#F87171] mb-1">
+                            {m.critical.label} · {m.critical.file}
+                          </div>
+                          <div className="text-xs text-white/60">
+                            {m.critical.details}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div className="text-xs text-white/60">
-                    Sua chave Stripe está exposta no código. Qualquer pessoa com
-                    acesso ao repo pode usar sua conta.
+                );
+              })}
+
+              {loading && (
+                <div className="flex gap-2.5 items-start">
+                  <div className="w-7 h-7 bg-star rounded-full flex items-center justify-center shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#080808" />
+                    </svg>
+                  </div>
+                  <div className="bg-[#141420] border border-white/8 py-3 px-4 rounded-md rounded-tr-2xl rounded-br-2xl rounded-bl-2xl max-w-[85%]">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" />
+                      <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: "120ms" }} />
+                      <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: "240ms" }} />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
 
-            {/* User Message 2 */}
-            <div className="flex justify-end">
-              <div className="bg-star text-black py-2.5 px-4 rounded-2xl rounded-br-sm max-w-[75%] text-[13px] font-medium">
-                Como resolvo isso no Lovable?
-              </div>
-            </div>
-
-            {/* STAR Prompt Response */}
-            <div className="flex gap-2.5 items-start">
-              <div className="w-7 h-7 bg-star rounded-full flex items-center justify-center shrink-0">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#080808"/>
-                </svg>
-              </div>
-              <div className="bg-[#141420] border border-white/8 py-3 px-4 rounded-md rounded-tr-2xl rounded-br-2xl rounded-bl-2xl max-w-[90%]">
-                <div className="text-xs font-semibold text-star mb-2">
-                  Prompt pronto para o Lovable ✓
-                </div>
-                <div className="bg-[#060609] border border-star/15 rounded-lg p-3 text-[10.5px] text-[#AAAABB] leading-[1.65]">
-                  Em <span className="text-star">api/payments.js</span>, remova a
-                  linha com{" "}
-                  <span className="text-[#7DD3FC]">
-                    STRIPE_SECRET = "sk_live_..."
-                  </span>{" "}
-                  e substitua por{" "}
-                  <span className="text-star">process.env.STRIPE_SECRET_KEY</span>.
-                  Crie o arquivo <span className="text-star">.env.local</span> com
-                  a variável.
-                </div>
-                <div className="flex gap-2 mt-2.5">
-                  <button className="text-[9px] py-1.5 px-3.5 bg-star/8 text-star border border-star/20 rounded hover:bg-star/15 tracking-[0.5px]">
-                    Copiar prompt
-                  </button>
-                  <button className="text-[9px] py-1.5 px-3.5 bg-star text-black rounded font-bold tracking-[0.5px]">
-                    Abrir no Lovable →
-                  </button>
-                </div>
-              </div>
+            <div className="mt-2 flex items-center gap-2">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    onSend();
+                  }
+                }}
+                placeholder="Digite sua mensagem..."
+                className="flex-1 bg-[#111119] border border-white/8 rounded-lg px-3 py-2 text-[12px] text-white/80 outline-none focus:border-star/40"
+                disabled={loading}
+              />
+              <button
+                onClick={onSend}
+                disabled={loading || !input.trim()}
+                className="bg-star text-black rounded-lg px-3 py-2 text-[11px] font-bold tracking-[0.5px] uppercase disabled:opacity-50"
+              >
+                Enviar
+              </button>
             </div>
           </div>
 
