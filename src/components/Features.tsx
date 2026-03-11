@@ -1,191 +1,214 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-
-const features = [
-  {
-    icon: "🛡️",
-    title: "Cybersegurança automatizada",
-    description:
-      "Detecta SQL injection, XSS, CSRF, keys expostas, APIs sem auth — e gera os prompts para corrigir tudo de uma vez.",
-    list: [
-      "Chaves de API e secrets expostos",
-      "APIs sem autenticação ou rate limiting",
-      "Headers de segurança ausentes (CORS, CSP)",
-      "SQL injection e XSS desprotegidos",
-    ],
-    big: true,
-    gold: true,
-  },
-  {
-    icon: "🖥️",
-    title: "App Desktop\nem tempo real",
-    description:
-      "Monitora seus arquivos locais enquanto a IA escreve código ao vivo — alertas instantâneos via app nativo.",
-    soon: true,
-  },
-  {
-    icon: "💳",
-    title: "Pagamentos completos",
-    description:
-      "Stripe, Mercado Pago, PagSeguro — implementação end-to-end com webhooks, retry e reconciliação.",
-  },
-  {
-    icon: "🏗️",
-    title: "Arquitetura revisada",
-    description:
-      "Identifica código duplicado, acoplamento excessivo e sugere separações de camada que realmente escalam.",
-  },
-  {
-    icon: "🔔",
-    title: "Webhooks robustos",
-    description:
-      "Retry, idempotência, validação de assinatura e fila de processamento — tudo via prompt pronto.",
-  },
-];
-
-function FeatureCard({
-  feature,
-  index,
-}: {
-  feature: (typeof features)[0];
-  index: number;
-}) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const baseClasses =
-    "p-9 relative overflow-hidden transition-all duration-300 cursor-default hover:bg-white/[0.02]";
-
-  const goldClasses = feature.gold
-    ? "bg-star hover:bg-[#FFE030]"
-    : "";
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: index * 0.07, duration: 0.55 }}
-      className={`${baseClasses} ${goldClasses}`}
-    >
-      <div
-        className={`w-12 h-12 rounded-xl flex items-center justify-center text-[22px] mb-6 ${
-          feature.gold
-            ? "bg-black/10"
-            : "bg-star/8"
-        }`}
-      >
-        {feature.icon}
-      </div>
-
-      <h3
-        className={`font-bold text-[22px] tracking-[-0.5px] mb-2.5 whitespace-pre-line ${
-          feature.gold ? "text-black" : ""
-        }`}
-      >
-        {feature.title}
-      </h3>
-
-      <p
-        className={`text-sm leading-[1.7] font-light ${
-          feature.gold ? "text-black/70" : "text-text-muted"
-        }`}
-      >
-        {feature.description}
-      </p>
-
-      {feature.list && (
-        <ul className="mt-4 flex flex-col gap-2">
-          {feature.list.map((item, i) => (
-            <li
-              key={i}
-              className={`text-[13px] flex items-center gap-2 ${
-                feature.gold ? "text-black/70" : "text-text-muted"
-              }`}
-            >
-              <span
-                className={`w-[5px] h-[5px] rounded-full shrink-0 ${
-                  feature.gold ? "bg-black/30" : "bg-star"
-                }`}
-              />
-              {item}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {feature.soon && (
-        <div className="inline-flex items-center gap-1.5 mt-3.5 text-[9px] text-[#FB923C] bg-[#FB923C]/10 py-[3px] px-2.5 rounded-full tracking-[0.5px]">
-          ⏳ Em breve
-        </div>
-      )}
-    </motion.div>
-  );
-}
-
 export function Features() {
-  const headerRef = useRef(null);
-  const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
-
   return (
-    <section className="relative py-[120px]" id="features">
-      {/* Cross markers at top */}
-      <div className="grid-cross" style={{ top: 0, left: '25%' }} />
-      <div className="grid-cross" style={{ top: 0, left: '50%' }} />
-      <div className="grid-cross" style={{ top: 0, left: '75%' }} />
-      
-      {/* Cross markers at bottom */}
-      <div className="grid-cross" style={{ bottom: 0, left: '25%' }} />
-      <div className="grid-cross" style={{ bottom: 0, left: '50%' }} />
-      <div className="grid-cross" style={{ bottom: 0, left: '75%' }} />
-      
-      {/* Horizontal lines */}
-      <div className="grid-h" style={{ top: 0 }} />
-      <div className="grid-h" style={{ bottom: 0 }} />
+    <section style={{
+      background: "#080808",
+      padding: "96px 0 120px",
+    }}>
+      <style>{`
+        .feat-card {
+          border-radius: 20px;
+          overflow: hidden;
+          position: relative;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          cursor: default;
+        }
+        .feat-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+        }
+      `}</style>
 
-      <div className="max-w-[1280px] mx-auto">
-        <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 24 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.55 }}
-        >
-          <div className="text-[11px] tracking-[3px] uppercase text-star mb-5 flex items-center gap-3">
-            <span className="w-7 h-px bg-star" />
-            Features
-          </div>
-          <h2 className="font-extrabold text-[clamp(36px,4.5vw,66px)] leading-[0.98] tracking-[-2px] text-white">
-            O que a STAR
-            <br />
-            faz por você.
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 40px" }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: "52px" }}>
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "11px",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#FFD400",
+            opacity: 0.7,
+            marginBottom: "14px",
+          }}>O produto</p>
+          <h2 style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontWeight: 700,
+            fontSize: "clamp(30px, 4vw, 48px)",
+            color: "white",
+            lineHeight: 1.15,
+            letterSpacing: "-0.5px",
+          }}>
+            Seu co-piloto de segurança,<br />de verdade.
           </h2>
-        </motion.div>
+        </div>
 
-        {/* Bento grid - cards with border separators */}
-        <div className="grid grid-cols-4 border-t border-b border-white/10 mt-16">
-          {/* Security card - spans 2 columns */}
-          <div className="col-span-2 border-r border-white/10">
-            <FeatureCard feature={features[0]} index={0} />
+        {/* BENTO 2x2 */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1.25fr 1fr",
+          gridTemplateRows: "auto auto",
+          gap: "16px",
+        }}>
+
+          {/* CARD 1 — Grande topo esquerdo */}
+          <div className="feat-card" style={{ background: "#111", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{
+              height: "260px",
+              background: "linear-gradient(160deg, #161616 0%, #0f0f0f 100%)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: "28px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+            }}>
+              <div style={{
+                width: "100%", maxWidth: "380px",
+                background: "#0a0a0a",
+                borderRadius: "14px",
+                border: "1px solid rgba(255,255,255,0.07)",
+                overflow: "hidden",
+                fontFamily: "'DM Sans', sans-serif",
+              }}>
+                <div style={{ padding: "14px 18px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span style={{ fontSize: "14px" }}>★</span>
+                  <span style={{ fontSize: "14px", fontWeight: 700, color: "white" }}>Boa tarde, Dev</span>
+                </div>
+                <div style={{ padding: "16px 18px" }}>
+                  <div style={{ background: "#161616", borderRadius: "10px", padding: "12px 14px", fontSize: "12px", color: "rgba(255,255,255,0.3)", marginBottom: "12px" }}>
+                    Pergunte qualquer coisa...
+                  </div>
+                  <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                    {["Analisar projeto", "O que é webhook?", "Proteger Stripe"].map(s => (
+                      <span key={s} style={{ padding: "5px 11px", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "20px", fontSize: "10px", color: "rgba(255,255,255,0.4)" }}>{s}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style={{ padding: "24px 28px 28px" }}>
+              <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "18px", color: "white", marginBottom: "8px", lineHeight: 1.3 }}>Pergunte qualquer coisa sobre seu projeto</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.38)", lineHeight: 1.7, margin: 0 }}>A STAR entende seu repositório e responde com contexto real — não respostas genéricas de GPT.</p>
+            </div>
           </div>
-          {/* Desktop app - 1 column */}
-          <div className="col-span-1 border-r border-white/10">
-            <FeatureCard feature={features[1]} index={1} />
+
+          {/* CARD 2 — Menor topo direito */}
+          <div className="feat-card" style={{ background: "#111", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{
+              height: "260px",
+              background: "linear-gradient(160deg, #161616 0%, #0f0f0f 100%)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: "28px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+            }}>
+              <div style={{ width: "100%", maxWidth: "300px", fontFamily: "'DM Sans', sans-serif" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "12px" }}>
+                  <div style={{ background: "#FFD400", borderRadius: "18px 18px 4px 18px", padding: "9px 14px", fontSize: "12px", color: "#080808", fontWeight: 600, maxWidth: "200px" }}>
+                    Verifique a estrutura do meu código
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: "8px", marginBottom: "14px" }}>
+                  <div style={{ width: "26px", height: "26px", background: "#FFD400", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "11px" }}>★</div>
+                  <div style={{ background: "#1a1a1a", borderRadius: "4px 18px 18px 18px", padding: "10px 14px", fontSize: "12px", color: "rgba(255,255,255,0.75)", lineHeight: 1.6 }}>
+                    Encontrei alguns problemas no seu projeto. 🔍
+                  </div>
+                </div>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#c0392b", borderRadius: "20px", padding: "5px 12px 5px 5px", fontSize: "11px", color: "white", fontWeight: 600 }}>
+                  <div style={{ width: "20px", height: "20px", background: "white", borderRadius: "50%", color: "#c0392b", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "9px", fontWeight: 900 }}>N</div>
+                  3 Issues ✕
+                </div>
+              </div>
+            </div>
+            <div style={{ padding: "24px 28px 28px" }}>
+              <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "18px", color: "white", marginBottom: "8px", lineHeight: 1.3 }}>Issues críticos detectados na hora</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.38)", lineHeight: 1.7, margin: 0 }}>Badge vermelho aparece quando há vulnerabilidades. Você nunca lança sem saber.</p>
+            </div>
           </div>
-          {/* Payments - 1 column */}
-          <div className="col-span-1">
-            <FeatureCard feature={features[2]} index={2} />
+
+          {/* CARD 3 — Menor baixo esquerdo */}
+          <div className="feat-card" style={{ background: "#111", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{
+              height: "260px",
+              background: "linear-gradient(160deg, #161616 0%, #0f0f0f 100%)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: "28px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+            }}>
+              <div style={{ display: "flex", gap: "10px", width: "100%", maxWidth: "360px", fontFamily: "'DM Sans', sans-serif" }}>
+                <div style={{ width: "130px", background: "#0d0d0d", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.07)", padding: "14px 12px", flexShrink: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "18px" }}>
+                    <span style={{ fontSize: "12px" }}>★</span>
+                    <span style={{ fontSize: "12px", fontWeight: 700, color: "white" }}>STAR</span>
+                  </div>
+                  {["Nova análise", "Conversar", "Projetos", "Histórico"].map((item, i) => (
+                    <div key={i} style={{ padding: "6px 8px", fontSize: "11px", color: i === 1 ? "white" : "rgba(255,255,255,0.35)", background: i === 1 ? "rgba(255,255,255,0.07)" : "transparent", borderRadius: "8px", marginBottom: "2px" }}>{item}</div>
+                  ))}
+                  <div style={{ marginTop: "14px", padding: "0 8px", fontSize: "9px", color: "rgba(255,255,255,0.18)", letterSpacing: "0.1em", marginBottom: "6px" }}>RECENTES</div>
+                  {["Chave Stripe exposta", "Como funciona webhook?"].map((c, i) => (
+                    <div key={i} style={{ padding: "5px 8px", fontSize: "10px", color: "rgba(255,255,255,0.3)", lineHeight: 1.4 }}>{c}</div>
+                  ))}
+                </div>
+                <div style={{ flex: 1, background: "#0d0d0d", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "6px" }}>
+                  <span style={{ fontSize: "22px" }}>★</span>
+                  <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.5)" }}>Olá! Sou a STAR.</span>
+                </div>
+              </div>
+            </div>
+            <div style={{ padding: "24px 28px 28px" }}>
+              <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "18px", color: "white", marginBottom: "8px", lineHeight: 1.3 }}>Todos os seus projetos em um lugar</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.38)", lineHeight: 1.7, margin: 0 }}>Histórico de análises e conversas recentes. Troca de projeto em segundos.</p>
+            </div>
           </div>
-          {/* Architecture - 1 column */}
-          <div className="col-span-1 border-r border-white/10">
-            <FeatureCard feature={features[3]} index={3} />
+
+          {/* CARD 4 */}
+          <div className="feat-card" style={{ background: "#111", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{
+              height: "260px",
+              background: "linear-gradient(160deg, #161616 0%, #0f0f0f 100%)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: "32px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+            }}>
+              <div style={{ width: "100%", maxWidth: "320px", fontFamily: "'DM Sans', sans-serif", display: "flex", flexDirection: "column", gap: "12px" }}>
+
+                {/* Perfil + notificação */}
+                <div style={{ background: "#1a1a1a", borderRadius: "16px", padding: "16px 18px", display: "flex", alignItems: "center", gap: "14px" }}>
+                  {/* Avatar */}
+                  <div style={{ position: "relative", flexShrink: 0 }}>
+                    <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: "linear-gradient(135deg, #2a2a2a, #3a3a3a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px" }}>👤</div>
+                    {/* Badge vermelho */}
+                    <div style={{ position: "absolute", top: "-2px", right: "-2px", width: "14px", height: "14px", background: "#e74c3c", borderRadius: "50%", border: "2px solid #1a1a1a", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <span style={{ fontSize: "7px", color: "white", fontWeight: 900 }}>!</span>
+                    </div>
+                  </div>
+                  {/* Info */}
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: "13px", fontWeight: 600, color: "white", margin: "0 0 2px" }}>meu-saas-app</p>
+                    <p style={{ fontSize: "11px", color: "#e74c3c", margin: 0, fontWeight: 500 }}>⚠️ Vulnerabilidade encontrada</p>
+                  </div>
+                </div>
+
+                {/* Mensagem da STAR */}
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                  <div style={{ width: "30px", height: "30px", background: "#FFD400", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "13px" }}>★</div>
+                  <div style={{ background: "#1a1a1a", borderRadius: "6px 16px 16px 16px", padding: "12px 16px", flex: 1 }}>
+                    <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.8)", lineHeight: 1.7, margin: "0 0 12px" }}>
+                      Seu sistema de pagamento está aceitando cobranças falsas. Gerei a correção pra você. ✅
+                    </p>
+                    <div style={{ background: "#FFD400", borderRadius: "10px", padding: "9px 16px", fontSize: "12px", fontWeight: 700, color: "#080808", textAlign: "center", cursor: "pointer" }}>
+                      ✨ Aplicar correção no Lovable
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div style={{ padding: "24px 28px 28px" }}>
+              <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "18px", color: "white", marginBottom: "8px", lineHeight: 1.3 }}>Você é avisado antes que vire problema</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.38)", lineHeight: 1.7, margin: 0 }}>A STAR monitora seu projeto e entrega a correção pronta — sem precisar entender o código.</p>
+            </div>
           </div>
-          {/* Webhooks - 1 column */}
-          <div className="col-span-1 col-start-2">
-            <FeatureCard feature={features[4]} index={4} />
-          </div>
+
         </div>
       </div>
     </section>

@@ -38,9 +38,9 @@ export function Navbar() {
               : "bg-transparent"
           }`}
         >
-        <a href="#" className="no-underline group">
+        <div className="no-underline group">
           <StarLogo variant="dark" size="sm" />
-        </a>
+        </div>
 
         <div className="w-px h-3 bg-white/10" />
 

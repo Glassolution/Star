@@ -23,16 +23,11 @@ export default function Home() {
       <main className="relative z-1">
         <Hero />
         <LogoStrip />
-        <HowItWorks />
-        <div className="diagonal-hatching" />
-        <Demo />
-        <div className="diagonal-hatching" />
         <Features />
-        <div className="diagonal-hatching" />
+        <HowItWorks />
+        <Demo />
         <Compare />
-        <div className="diagonal-hatching" />
         <Roadmap />
-        <div className="diagonal-hatching" />
         <CTA />
       </main>
       <Footer />
